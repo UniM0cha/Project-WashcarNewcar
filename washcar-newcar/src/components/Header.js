@@ -19,7 +19,7 @@ const Header = () => {
       </div>
       <div className={styles.right}>
         <button className={styles.menubutton} onClick={onClick}>
-          <FiMenu />
+          <FiMenu color="#2964F6" strokeWidth={3} size={'100%'} />
         </button>
       </div>
     </div>

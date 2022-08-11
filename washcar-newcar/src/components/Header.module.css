@@ -1,15 +1,18 @@
 .container {
+  background-color: white;
+  position: fixed;
   display: flex;
   flex-direction: row;
   align-items: center;
 
-  height: 64px;
+  width: 100%;
+  height: 65px;
   padding-top: 5px;
 }
 
 .left {
   flex: 1;
-  padding-left: 20px;
+  margin-left: var(--margin-left);
   text-align: start;
 }
 
@@ -20,7 +23,7 @@
 
 .right {
   flex: 1;
-  padding-right: 20px;
+  margin-right: var(--margin-right);
   text-align: end;
 }
 
@@ -30,4 +33,13 @@
 
 .text_logo {
   height: 30px;
+}
+
+.menubutton {
+  height: 30px;
+  width: 30px;
+  background-color: #0000;
+  border: none;
+  border-radius: 0;
+  padding: 0;
 }
