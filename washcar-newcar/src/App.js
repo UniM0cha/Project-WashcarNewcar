@@ -1,13 +1,16 @@
 import './App.css';
+import Burgermenu from './components/Burgermenu';
 import Header from './components/Header';
-import Sidebar from './components/Sidebar';
+import { IsBurgermenuOpenProvider } from './contexts/burgermenu';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      {/* <Sidebar /> */}
-    </div>
+    <IsBurgermenuOpenProvider>
+      <div className="App">
+        <Burgermenu />
+        <Header />
+      </div>
+    </IsBurgermenuOpenProvider>
   );
 }
 
