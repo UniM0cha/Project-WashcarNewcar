@@ -1,19 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
-import { FiMenu } from 'react-icons/fi';
-import styles from './Header.module.css';
-import Sidebar from './Sidebar';
+import React, { useEffect, useRef, useState } from 'react';
+import styles from './Sidebar.module.css';
 
-const Header = ({ children }) => {
-  const width = 280;
+const Sidebar = ({ width = 280, children }) => {
   const [isOpen, setOpen] = useState(false);
   const [xPosition, setX] = useState(-width);
   const side = useRef();
 
   // button 클릭 시 토글
   const toggleMenu = () => {
-    console.log('??');
-    if (isOpen === false) {
-      console.log('???');
+    if (xPosition < 0) {
       setX(0);
       setOpen(true);
     } else {
@@ -41,18 +36,6 @@ const Header = ({ children }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.left}>
-        <img className={styles.mainLogo} src="메인로고.png" />
-      </div>
-      <div className={styles.center}>
-        <img className={styles.textLogo} src="세차새차.png" />
-      </div>
-      <div className={styles.right}>
-        <button onClick={() => toggleMenu()}>
-          <FiMenu />
-        </button>
-      </div>
-
       <div
         ref={side}
         className={styles.sidebar}
@@ -62,9 +45,9 @@ const Header = ({ children }) => {
           transform: `translatex(${-xPosition}px)`,
         }}
       >
-        {/* <button onClick={() => toggleMenu()} className={styles.button}>
+        <button onClick={() => toggleMenu()} className={styles.button}>
           {isOpen ? <span>X</span> : <img className={styles.openBtn} />}
-        </button> */}
+        </button>
         <button onClick={() => toggleMenu()}>X</button>
         <div className={styles.content}>{children}</div>
       </div>
@@ -72,4 +55,4 @@ const Header = ({ children }) => {
   );
 };
 
-export default Header;
+export default Sidebar;
