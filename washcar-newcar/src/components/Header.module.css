@@ -1,32 +1,33 @@
-.container{
-
-  background-color: aquamarine;
-
+.container {
   display: flex;
   flex-direction: row;
   align-items: center;
 
   height: 64px;
+  padding-top: 5px;
 }
-.left{
+
+.left {
   flex: 1;
   padding-left: 20px;
   text-align: start;
 }
-.center{
+
+.center {
   flex: 1;
   text-align: center;
 }
-.right{
+
+.right {
   flex: 1;
   padding-right: 20px;
   text-align: end;
 }
 
-.main-logo{
-  height: 50px;
+.main_logo {
+  height: 40px;
 }
 
-.text-logo{
-  height: 50px;
+.text_logo {
+  height: 30px;
 }

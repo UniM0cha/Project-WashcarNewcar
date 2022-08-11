@@ -5,17 +5,21 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 
 const Burgermenu = () => {
+  const width = 250;
   const { isOpen, setIsOpen } = useContext(IsBurgermenuOpenContext);
-  const [menuRight, setMenuRight] = useState(0);
+  const [menuRight, setMenuRight] = useState(-width);
   const [overlayOpacity, setOverlayOpacity] = useState('0%');
+  const [overlayPointEvent, setOverlayPointEvent] = useState('none');
 
   useEffect(() => {
     if (isOpen) {
       setMenuRight(0);
       setOverlayOpacity('20%');
+      setOverlayPointEvent('all');
     } else {
-      setMenuRight(-280);
+      setMenuRight(-width);
       setOverlayOpacity('0%');
+      setOverlayPointEvent('none');
     }
   }, [isOpen]);
 
@@ -29,9 +33,17 @@ const Burgermenu = () => {
         className={styles.overlay}
         style={{
           opacity: overlayOpacity,
+          pointerEvents: overlayPointEvent,
         }}
+        onClick={onClick}
       ></div>
-      <div className={styles.menu} style={{ right: menuRight }}>
+      <div
+        className={styles.menu}
+        style={{
+          right: menuRight,
+          width: width,
+        }}
+      >
         <button onClick={onClick}>X</button>
       </div>
     </div>
