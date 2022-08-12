@@ -1,0 +1,5 @@
+.container {
+  padding-top: 80px;
+  margin-left: var(--margin-left);
+  margin-right: var(--margin-right);
+}

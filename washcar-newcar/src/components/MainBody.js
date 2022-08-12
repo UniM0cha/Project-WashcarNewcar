@@ -1,15 +1,14 @@
 // import Card from './Card';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './MainBody.module.css';
 
 const MainBody = () => {
   return (
-    <div className={styles.container}>
-      <div className={styles.card_grid}>
-        <Card type="세차하기" />
-        <Card type="예약하기" />
-        <Card type="등록하기" />
-      </div>
+    <div className={styles.card_grid}>
+      <Card type="세차하기" />
+      <Card type="예약하기" />
+      <Card type="등록하기" />
     </div>
   );
 };
@@ -25,24 +24,24 @@ const Card = ({ type }) => {
     switch (type) {
       case '세차하기':
         return (
-          <button className={styles.card_grid_item}>
+          <Link to="/wash" className={styles.card_grid_item}>
             <div className={styles.card_title}>세차하기</div>
             <div className={styles.card_content}>내 주변 세차장 찾기</div>
-          </button>
+          </Link>
         );
       case '예약하기':
         return (
-          <button className={styles.card_grid_item}>
+          <Link to="/reservation" className={styles.card_grid_item}>
             <div className={styles.card_title}>예약하기</div>
             <div className={styles.card_content}>내 주변 세차장 찾기</div>
-          </button>
+          </Link>
         );
       case '등록하기':
         return (
-          <button className={styles.card_grid_item}>
+          <Link to="/register" className={styles.card_grid_item}>
             <div className={styles.card_title}>등록하기</div>
             <div className={styles.card_content}>세차장 사장님이신가요?</div>
-          </button>
+          </Link>
         );
       default:
         return <></>;

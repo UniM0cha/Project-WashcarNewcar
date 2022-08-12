@@ -1,13 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { IsBurgermenuOpenProvider } from './contexts/burgermenu';
+import Home from './pages/Home';
+import Wash from './pages/Wash';
+import Register from './pages/Register';
+import Reservation from './pages/Reservation';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <IsBurgermenuOpenProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/wash" element={<Wash />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/reservation" element={<Reservation />} />
+        </Routes>
+      </BrowserRouter>
+    </IsBurgermenuOpenProvider>
   </React.StrictMode>
 );
 
