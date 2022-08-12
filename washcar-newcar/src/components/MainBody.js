@@ -1,4 +1,5 @@
-import Card from './Card';
+// import Card from './Card';
+import { useEffect, useState } from 'react';
 import styles from './MainBody.module.css';
 
 const MainBody = () => {
@@ -11,6 +12,44 @@ const MainBody = () => {
       </div>
     </div>
   );
+};
+
+const Card = ({ type }) => {
+  const [card, setCard] = useState(<></>);
+
+  useEffect(() => {
+    setCard(selectCard(type));
+  }, [type]);
+
+  const selectCard = (type) => {
+    switch (type) {
+      case '세차하기':
+        return (
+          <button className={styles.card_grid_item}>
+            <div className={styles.card_title}>세차하기</div>
+            <div className={styles.card_content}>내 주변 세차장 찾기</div>
+          </button>
+        );
+      case '예약하기':
+        return (
+          <button className={styles.card_grid_item}>
+            <div className={styles.card_title}>예약하기</div>
+            <div className={styles.card_content}>내 주변 세차장 찾기</div>
+          </button>
+        );
+      case '등록하기':
+        return (
+          <button className={styles.card_grid_item}>
+            <div className={styles.card_title}>등록하기</div>
+            <div className={styles.card_content}>세차장 사장님이신가요?</div>
+          </button>
+        );
+      default:
+        return <></>;
+    }
+  };
+
+  return card ? card : <></>;
 };
 
 export default MainBody;
