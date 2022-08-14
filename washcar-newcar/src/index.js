@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Wash from './pages/Wash';
 import Register from './pages/Register';
 import Reservation from './pages/Reservation';
+import LoginRedirect from './pages/LoginRedirect';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,6 +20,7 @@ root.render(
           <Route path="/wash" element={<Wash />} />
           <Route path="/register" element={<Register />} />
           <Route path="/reservation" element={<Reservation />} />
+          <Route path="/oauth2/redirect/:token" element={<LoginRedirect />} />
         </Routes>
       </BrowserRouter>
     </IsBurgermenuOpenProvider>
