@@ -32,11 +32,11 @@ public class SecurityConfiguration {
     http.csrf().disable(); // csrf 비활성화
 
     // 세션 비활성화
-    // http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     http.formLogin().disable(); // formLogin 비활성화
 
-    // http.httpBasic().disable(); // 기존 인증 방식 비활성화
+    http.httpBasic().disable(); // 기존 인증 방식 비활성화
 
     http.cors(); // cors 설정
 
@@ -44,7 +44,6 @@ public class SecurityConfiguration {
     // CustomOAuth2UserService는 OAuth2UserService를 상속받은 구현체.
     // userService를 지정해주지 않으면 DefaultOAuth2UserService가 실행된다.
     http.oauth2Login()
-        // .successHandler(oAuth2AuthenticationSuccessHandler)
         .userInfoEndpoint()
         .userService(customOAuth2UserService);
 

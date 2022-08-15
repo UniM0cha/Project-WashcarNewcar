@@ -4,7 +4,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
+import org.springframework.security.access.method.P;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -13,11 +15,24 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import com.solstice.washcar_newcar.config.security.auth.OAuth2UserDetails;
+import com.solstice.washcar_newcar.config.security.auth.provider.KakaoUserInfo;
+import com.solstice.washcar_newcar.config.security.auth.provider.OAuth2UserInfo;
+import com.solstice.washcar_newcar.data.entity.Provider;
+import com.solstice.washcar_newcar.data.entity.Role;
+import com.solstice.washcar_newcar.data.entity.User;
+import com.solstice.washcar_newcar.data.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+
+  private final BCryptPasswordEncoder bCryptPasswordEncoder;
+  private final UserRepository userRepository;
 
   /**
    * loadUser 메서드는 사용자 정보를 요청할 수 있는 access token을 얻고 나서 실행된다.
@@ -30,22 +45,48 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     Map<String, Object> attributes = oAuth2User.getAttributes();
 
-    @SuppressWarnings("unchecked")
-    Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+    OAuth2UserInfo oAuth2UserInfo = null;
+    switch (userRequest.getClientRegistration().getRegistrationId()) {
+      case "kakao":
+        log.info("카카오 로그인 요청 : " + oAuth2User.toString());
+        oAuth2UserInfo = new KakaoUserInfo(attributes);
+        break;
+      default:
+        log.error("다른 플랫폼의 로그인 요청");
+        break;
+    }
 
-    String email = (String) kakaoAccount.get("email");
+    Provider provider = oAuth2UserInfo.getProvider();
+    String providerId = oAuth2UserInfo.getProviderId();
+    String email = oAuth2UserInfo.getEmail();
+    Role role = Role.ROLE_CLIENT;
 
-    /**
-     * TODO: 회원가입 로직
-     */
+    User foundUser = userRepository.findByProviderAndProviderId(provider, providerId);
+
+    // 회원가입
+    OAuth2UserDetails oAuth2UserDetails = null;
+    if (foundUser == null) {
+      log.info("회원가입을 진행합니다.");
+      User newUser = User.builder()
+          .provider(provider)
+          .providerId(providerId)
+          .email(email)
+          .role(role)
+          .build();
+      userRepository.save(newUser);
+      oAuth2UserDetails = new OAuth2UserDetails(newUser, attributes);
+    } else {
+      oAuth2UserDetails = new OAuth2UserDetails(foundUser, attributes);
+    }
 
     // DefaultOAuth2User의 생성자를 통해 ROLE_MEMBER를 가지고 있는 새로운 OAuth2User 객체를 만든다.
-    OAuth2User newUser = new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_MEMBER")),
-        attributes, "id");
-    log.info("UserPrincipal : " + newUser.toString());
+    // OAuth2User newUser = new DefaultOAuth2User(
+    // Collections.singleton(new SimpleGrantedAuthority(Role.ROLE_CLIENT.name())),
+    // attributes, "id");
+    // log.info("UserPrincipal : " + newUser.toString());
 
-    // 여기서 리턴한 객체가 시큐리티 세션의 UserPrincipal에 저장된다.
-    return newUser;
+    // 여기서 리턴한 객체가 시큐리티 세션의 Authentication 객체에 저장된다.
+    return oAuth2UserDetails;
   }
 
 }

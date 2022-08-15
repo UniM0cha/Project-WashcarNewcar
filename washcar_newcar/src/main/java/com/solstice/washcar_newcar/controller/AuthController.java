@@ -17,8 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthController {
 
   @PostMapping("/check")
-  public boolean checkLogin(@AuthenticationPrincipal OAuth2User principal) {
-    log.info(principal.toString());
+  public boolean checkLogin() {
     return true;
   }
 
