@@ -9,6 +9,7 @@ import Wash from './pages/Wash';
 import Register from './pages/Register';
 import Reservation from './pages/Reservation';
 import LoginRedirect from './pages/LoginRedirect';
+import Login from './pages/Login';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,6 +20,7 @@ root.render(
           <Route path="/" element={<Home />} />
           <Route path="/wash" element={<Wash />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/reservation" element={<Reservation />} />
           <Route path="/oauth2/redirect/:token" element={<LoginRedirect />} />
         </Routes>

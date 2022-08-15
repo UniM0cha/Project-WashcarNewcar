@@ -4,9 +4,6 @@ import java.util.Map;
 
 import com.solstice.washcar_newcar.data.entity.Provider;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class KakaoUserInfo implements OAuth2UserInfo {
 
   private Map<String, Object> attributes;

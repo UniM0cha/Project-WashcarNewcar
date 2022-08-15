@@ -10,8 +10,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.solstice.washcar_newcar.data.entity.User;
 
-import lombok.RequiredArgsConstructor;
-
 public class OAuth2UserDetails implements UserDetails, OAuth2User {
 
   private User user;
@@ -70,7 +68,7 @@ public class OAuth2UserDetails implements UserDetails, OAuth2User {
    */
   @Override
   public String getUsername() {
-    return user.getEmail();
+    return user.getUserId();
   }
 
   /**

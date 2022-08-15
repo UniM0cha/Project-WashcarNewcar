@@ -1,21 +1,13 @@
-package com.solstice.washcar_newcar.config.security;
+package com.solstice.washcar_newcar.config.security.auth;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 
-import org.springframework.security.access.method.P;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import com.solstice.washcar_newcar.config.security.auth.OAuth2UserDetails;
 import com.solstice.washcar_newcar.config.security.auth.provider.KakaoUserInfo;
 import com.solstice.washcar_newcar.config.security.auth.provider.OAuth2UserInfo;
 import com.solstice.washcar_newcar.data.entity.Provider;
@@ -31,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-  private final BCryptPasswordEncoder bCryptPasswordEncoder;
   private final UserRepository userRepository;
 
   /**
@@ -58,6 +49,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     Provider provider = oAuth2UserInfo.getProvider();
     String providerId = oAuth2UserInfo.getProviderId();
+    String userId = provider.toString() + "_" + providerId;
     String email = oAuth2UserInfo.getEmail();
     Role role = Role.ROLE_CLIENT;
 
@@ -68,6 +60,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     if (foundUser == null) {
       log.info("회원가입을 진행합니다.");
       User newUser = User.builder()
+          .userId(userId)
           .provider(provider)
           .providerId(providerId)
           .email(email)

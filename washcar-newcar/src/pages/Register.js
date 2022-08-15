@@ -1,35 +1,45 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Body from '../components/Body';
 import Burgermenu from '../components/Burgermenu';
 import Header from '../components/Header';
+import { API_SERVER } from '../global_variables';
 
 const Register = () => {
   const [isLogind, setIsLogind] = useState(false);
-  const navigate = useNavigate();
+  const [ready, setReady] = useState(false);
+  const jwt = {
+    Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+  };
+
+  useEffect(() => {
+    checkLogin();
+  }, []);
 
   const checkLogin = async () => {
-    const response = await fetch('http://localhost:8080/auth/check', {
+    const response = await fetch(`${API_SERVER}/auth/check`, {
       method: 'post',
+      headers: jwt,
     });
     const data = await response.json();
-    console.log(data);
+    console.log(`data : ` + data);
+    setIsLogind(data);
+    setReady(true);
   };
+
+  if (!ready) {
+    return <div>loading...</div>;
+  }
+
+  if (!isLogind) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <div>
       <Burgermenu />
       <Header />
-      <Body>
-        <button onClick={checkLogin}>로그인 체크</button>
-        <a href="http://localhost:8080/oauth2/authorization/kakao">
-          <button>로그인</button>
-        </a>
-
-        <Link to="/login">
-          <img src="kakao_login_large_wide.png" style={{ width: 300 }}></img>
-        </Link>
-      </Body>
+      <Body>등록 페이지</Body>
     </div>
   );
 };

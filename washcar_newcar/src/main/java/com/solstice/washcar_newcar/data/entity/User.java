@@ -25,7 +25,10 @@ import lombok.NoArgsConstructor;
 public class User {
   @Id
   @GeneratedValue
-  private Long userId;
+  private Long userNumber;
+
+  @Column(nullable = false)
+  private String userId;
 
   @Email
   @Column(nullable = false)
@@ -50,8 +53,10 @@ public class User {
   private Date loginedDate;
 
   @Builder
-  public User(Long userId, String password, @Email String email, Role role, Provider provider, String providerId,
+  public User(Long userNumber, String userId, String password, @Email String email, Role role, Provider provider,
+      String providerId,
       Date createDate, Date loginedDate) {
+    this.userNumber = userNumber;
     this.userId = userId;
     this.password = password;
     this.email = email;

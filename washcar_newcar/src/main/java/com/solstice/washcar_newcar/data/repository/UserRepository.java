@@ -6,5 +6,7 @@ import com.solstice.washcar_newcar.data.entity.Provider;
 import com.solstice.washcar_newcar.data.entity.User;
 
 public interface UserRepository extends JpaRepository<User, String> {
-  User findByProviderAndProviderId(Provider provider, String providerId);
+  public User findByProviderAndProviderId(Provider provider, String providerId);
+
+  public User findByUserId(String userId);
 }
