@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import Body from '../components/Body';
 import Burgermenu from '../components/Burgermenu';
 import Header from '../components/Header';
+import Loading from '../components/Loading';
 import { API_SERVER } from '../global_variables';
 
 const Register = () => {
@@ -22,13 +23,18 @@ const Register = () => {
       headers: jwt,
     });
     const data = await response.json();
-    console.log(`data : ` + data);
     setIsLogind(data);
     setReady(true);
   };
 
   if (!ready) {
-    return <div>loading...</div>;
+    return (
+      <div>
+        <Burgermenu />
+        <Header />
+        <Loading />
+      </div>
+    );
   }
 
   if (!isLogind) {

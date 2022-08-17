@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { createContext } from 'react';
 
+interface ProviderProps {
+  children: any
+}
+
 const IsBurgermenuOpenContext = createContext({
   isOpen: false,
-  setIsOpen: () => {},
+  setIsOpen: (isOpen:boolean) => { },
 });
 
-const IsBurgermenuOpenProvider = ({ children }) => {
+const IsBurgermenuOpenProvider = ({ children } : ProviderProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const value = { isOpen: isOpen, setIsOpen: setIsOpen };
   return (

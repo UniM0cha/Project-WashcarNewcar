@@ -77,15 +77,15 @@ public class JwtTokenProvider {
       Jwts.parserBuilder().setSigningKey(JWT_SECRET).build().parseClaimsJws(token);
       return true;
     } catch (MalformedJwtException ex) {
-      log.error("Invalid JWT token");
+      log.info("유효하지 않은 JWT");
     } catch (ExpiredJwtException ex) {
-      log.error("Expired JWT token");
+      log.info("만료된 JWT");
     } catch (UnsupportedJwtException ex) {
-      log.error("Unsupported JWT token");
+      log.info("지원되지 않는 JWT");
     } catch (IllegalArgumentException ex) {
-      log.error("JWT claims string is empty.");
+      log.info("JWT의 Claims가 비어있음");
     } catch (SignatureException ex) {
-      log.error("JWT 시그니쳐가 맞지 않습니다.");
+      log.info("JWT 시그니쳐 일치하지 않음");
     }
     return false;
   }

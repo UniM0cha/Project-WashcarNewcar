@@ -1,19 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import logo from './logo.svg';
+import './App.css';
 import { IsBurgermenuOpenProvider } from './contexts/burgermenu';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Wash from './pages/Wash';
 import Register from './pages/Register';
+import Login from './pages/Login';
 import Reservation from './pages/Reservation';
 import LoginRedirect from './pages/LoginRedirect';
-import Login from './pages/Login';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
+function App() {
+  return (
     <IsBurgermenuOpenProvider>
       <BrowserRouter>
         <Routes>
@@ -26,10 +24,7 @@ root.render(
         </Routes>
       </BrowserRouter>
     </IsBurgermenuOpenProvider>
-  </React.StrictMode>
-);
+  );
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+export default App;

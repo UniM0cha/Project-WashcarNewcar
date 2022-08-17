@@ -3,6 +3,10 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './MainBody.module.css';
 
+interface CardProps{
+  type: string;
+}
+
 const MainBody = () => {
   return (
     <div className={styles.card_grid}>
@@ -13,14 +17,14 @@ const MainBody = () => {
   );
 };
 
-const Card = ({ type }) => {
+const Card = ({ type } : CardProps) => {
   const [card, setCard] = useState(<></>);
 
   useEffect(() => {
     setCard(selectCard(type));
   }, [type]);
 
-  const selectCard = (type) => {
+  const selectCard = (type:string) => {
     switch (type) {
       case '세차하기':
         return (

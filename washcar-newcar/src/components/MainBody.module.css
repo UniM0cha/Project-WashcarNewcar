@@ -43,6 +43,6 @@
 .card_content {
   padding-top: 5px;
   font-size: small;
-  opacity: 50%;
+  color: gray;
   word-break: keep-all;
 }
