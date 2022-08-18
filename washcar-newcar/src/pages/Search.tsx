@@ -1,12 +1,16 @@
 import Body from '../components/Body';
+import Burgermenu from '../components/Burgermenu';
 import Datepicker from '../components/Datepicker';
+import Header from '../components/Header';
 
 const Search = () => {
   return (
     <div>
-      <div style={{ margin: '30px' }}></div>
-      <Datepicker />
-      {/* <Body></Body> */}
+      <Burgermenu />
+      <Header />
+      <Body header>
+        <Datepicker />
+      </Body>
     </div>
   );
 };
