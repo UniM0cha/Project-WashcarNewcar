@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 const LoginRedirect = () => {
   const { token } = useParams<{ token: string }>();
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (!token) {
       navigate('/');
@@ -12,7 +12,7 @@ const LoginRedirect = () => {
     }
 
     localStorage.clear();
-    localStorage.setItem('jwt', token);
+    localStorage.setItem('token', token);
     navigate('/');
     return;
   }, []);

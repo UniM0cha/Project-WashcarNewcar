@@ -4,26 +4,18 @@ import Body from '../components/Body';
 import Burgermenu from '../components/Burgermenu';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
-import { API_SERVER } from '../global_variables';
+import { checkLogin } from '../functions/request';
 
 const Register = () => {
   const [isLogind, setIsLogind] = useState(false);
   const [ready, setReady] = useState(false);
-  const jwt = {
-    Authorization: 'Bearer ' + localStorage.getItem('jwt'),
-  };
 
   useEffect(() => {
-    checkLogin();
+    runAsync();
   }, []);
 
-  const checkLogin = async () => {
-    const response = await fetch(`${API_SERVER}/auth/check`, {
-      method: 'post',
-      headers: jwt,
-    });
-    const data = await response.json();
-    setIsLogind(data);
+  const runAsync = async () => {
+    setIsLogind(await checkLogin());
     setReady(true);
   };
 
@@ -32,7 +24,9 @@ const Register = () => {
       <div>
         <Burgermenu />
         <Header />
-        <Loading />
+        <div style={{ width: '100%', height: '100vh' }}>
+          <Loading />
+        </div>
       </div>
     );
   }
@@ -45,7 +39,7 @@ const Register = () => {
     <div>
       <Burgermenu />
       <Header />
-      <Body>등록 페이지</Body>
+      <Body header>등록 페이지</Body>
     </div>
   );
 };

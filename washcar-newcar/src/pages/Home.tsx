@@ -1,15 +1,15 @@
 import Body from '../components/Body';
 import Burgermenu from '../components/Burgermenu';
 import Header from '../components/Header';
-import MainBody from '../components/MainBody';
+import CardGrid from '../components/CardGrid';
 
 const Home = () => {
   return (
     <div>
       <Burgermenu />
       <Header />
-      <Body>
-        <MainBody />
+      <Body header>
+        <CardGrid />
       </Body>
     </div>
   );

@@ -1,13 +1,13 @@
 // import Card from './Card';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './MainBody.module.css';
+import styles from './CardGrid.module.css';
 
 interface CardProps{
   type: string;
 }
 
-const MainBody = () => {
+const CardGrid = () => {
   return (
     <div className={styles.card_grid}>
       <Card type="세차하기" />
@@ -28,7 +28,7 @@ const Card = ({ type } : CardProps) => {
     switch (type) {
       case '세차하기':
         return (
-          <Link to="/wash" className={styles.card_grid_item}>
+          <Link to="/search" className={styles.card_grid_item}>
             <div className={styles.card_title}>세차하기</div>
             <div className={styles.card_content}>내 주변 세차장 찾기</div>
           </Link>
@@ -55,4 +55,4 @@ const Card = ({ type } : CardProps) => {
   return card ? card : <></>;
 };
 
-export default MainBody;
+export default CardGrid;

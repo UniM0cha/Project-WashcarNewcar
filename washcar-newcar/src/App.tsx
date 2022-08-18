@@ -1,10 +1,8 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { IsBurgermenuOpenProvider } from './contexts/burgermenu';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import Wash from './pages/Wash';
+import Search from './pages/Search';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Reservation from './pages/Reservation';
@@ -16,7 +14,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/wash" element={<Wash />} />
+          <Route path="/search" element={<Search />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/reservation" element={<Reservation />} />

@@ -7,7 +7,7 @@ const Reservation = () => {
     <div>
       <Burgermenu />
       <Header />
-      <Body>Reservation</Body>
+      <Body header>Reservation</Body>
     </div>
   );
 };
