@@ -3,6 +3,7 @@
   flex-direction: row;
   gap: 0px 15px;
   overflow: scroll;
+  padding-bottom: 17px;
 }
 
 .date_container {

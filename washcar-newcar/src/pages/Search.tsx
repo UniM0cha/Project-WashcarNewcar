@@ -1,16 +1,52 @@
-import Body from '../components/Body';
-import Burgermenu from '../components/Burgermenu';
+import styles from './Search.module.css';
 import Datepicker from '../components/Datepicker';
-import Header from '../components/Header';
+import { IoIosArrowForward } from 'react-icons/io';
+import { BsCheckCircleFill } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
+import Item from '../components/Item';
+import classNames from 'classnames';
 
 const Search = () => {
   return (
-    <div>
-      <Burgermenu />
-      <Header />
-      <Body header>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <Link to="/">
+          <img src="carwash.png" className={styles.carwash_logo} />
+        </Link>
+        <Link to="/">
+          <img src="메인로고.png" className={styles.main_logo} />
+        </Link>
+      </div>
+      <div className={styles.date}>
+        <div className={styles.date_flex_container}>
+          <div className={styles.left}>날짜 선택</div>
+        </div>
         <Datepicker />
-      </Body>
+      </div>
+
+      <div className={styles.flex_container}>
+        <div className={styles.left}>지역 선택</div>
+        <div className={styles.right}>
+          서울 강남구
+          <IoIosArrowForward size={30} />
+        </div>
+      </div>
+
+      <div
+        className={classNames(
+          styles.flex_container,
+          styles.time_flex_container
+        )}
+      >
+        <div className={styles.left}>시간 선택</div>
+        <div className={styles.right}>
+          <BsCheckCircleFill className={styles.check_icon} />
+          당일 가능 업체만
+          <IoIosArrowForward size={30} />
+        </div>
+      </div>
+
+      <Item />
     </div>
   );
 };

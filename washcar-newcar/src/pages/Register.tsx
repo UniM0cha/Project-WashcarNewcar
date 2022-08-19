@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import Body from '../components/Body';
 import Burgermenu from '../components/Burgermenu';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
@@ -21,12 +20,8 @@ const Register = () => {
 
   if (!ready) {
     return (
-      <div>
-        <Burgermenu />
-        <Header />
-        <div style={{ width: '100%', height: '100vh' }}>
-          <Loading />
-        </div>
+      <div style={{ width: '100%', height: '100vh' }}>
+        <Loading />
       </div>
     );
   }
@@ -37,9 +32,7 @@ const Register = () => {
 
   return (
     <div>
-      <Burgermenu />
-      <Header />
-      <Body header>등록 페이지</Body>
+      <div style={{ paddingTop: '80px' }}>등록 페이지</div>
     </div>
   );
 };
