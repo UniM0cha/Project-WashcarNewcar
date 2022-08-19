@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { MAIN_COLOR } from '../global_variables';
-import styles from './Datepicker.module.css';
+import styles from './Datepicker.module.scss';
 
 const Datepicker = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());

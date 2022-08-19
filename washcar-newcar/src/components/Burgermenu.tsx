@@ -1,5 +1,5 @@
-import styles from './Burgermenu.module.css';
-import {useContext } from 'react';
+import styles from './Burgermenu.module.scss';
+import { useContext } from 'react';
 import IsBurgermenuOpenContext from '../contexts/burgermenu';
 
 const Burgermenu = () => {
@@ -15,7 +15,7 @@ const Burgermenu = () => {
       <div
         className={styles.overlay}
         style={{
-          opacity: isOpen? '20%':'0%',
+          opacity: isOpen ? '20%' : '0%',
           pointerEvents: isOpen ? 'all' : 'none',
         }}
         onClick={onClick}

@@ -1,5 +1,5 @@
 import { FiMenu } from 'react-icons/fi';
-import styles from './Header.module.css';
+import styles from './Header.module.scss';
 import { useContext } from 'react';
 import IsBurgermenuOpenContext from '../contexts/burgermenu';
 import { Link } from 'react-router-dom';

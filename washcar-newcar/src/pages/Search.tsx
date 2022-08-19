@@ -1,4 +1,4 @@
-import styles from './Search.module.css';
+import styles from './Search.module.scss';
 import Datepicker from '../components/Datepicker';
 import { IoIosArrowForward } from 'react-icons/io';
 import { BsCheckCircleFill } from 'react-icons/bs';
@@ -46,6 +46,10 @@ const Search = () => {
         </div>
       </div>
 
+      <Item />
+      <Item />
+      <Item />
+      <Item />
       <Item />
     </div>
   );
