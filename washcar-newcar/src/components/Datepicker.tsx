@@ -9,9 +9,6 @@ const Datepicker = () => {
   const generateDays = () => {
     const days = [];
 
-    // 앞 마진
-    days.push(<div key={'start-margin'} style={{ margin: '5px' }}></div>);
-
     // 2주
     for (let i = 0; i <= 14; i++) {
       const date = new Date(today);
@@ -20,14 +17,12 @@ const Datepicker = () => {
         <Day
           key={i}
           date={date}
-          selected={date.getDate() == selectedDate.getDate() ? true : false}
+          selected={date.getDate() === selectedDate.getDate() ? true : false}
           onClick={onClick}
         />
       );
     }
 
-    // 뒷 마진
-    days.push(<div key={'end-margin'} style={{ margin: '5px' }}></div>);
     return days;
   };
 
@@ -47,7 +42,7 @@ const Day = ({ date, selected = false, onClick }: DayProps) => {
   return (
     <div className={styles.date_container}>
       <div className={styles.day}>
-        {date.getDate() == new Date().getDate() ? '오늘' : week[date.getDay()]}
+        {date.getDate() === new Date().getDate() ? '오늘' : week[date.getDay()]}
       </div>
       <div
         className={styles.date}

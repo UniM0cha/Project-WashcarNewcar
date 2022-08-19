@@ -11,10 +11,18 @@ const Search = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <Link to="/">
-          <img src="carwash.png" className={styles.carwash_logo} />
+          <img
+            src="carwash.png"
+            alt="carwash-logo"
+            className={styles.carwash_logo}
+          />
         </Link>
         <Link to="/">
-          <img src="메인로고.png" className={styles.main_logo} />
+          <img
+            src="메인로고.png"
+            alt="main-logo"
+            className={styles.main_logo}
+          />
         </Link>
       </div>
       <div className={styles.date}>

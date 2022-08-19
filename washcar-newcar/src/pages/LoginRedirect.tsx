@@ -15,7 +15,7 @@ const LoginRedirect = () => {
     localStorage.setItem('token', token);
     navigate('/');
     return;
-  }, []);
+  }, [navigate, token]);
 
   return null;
 };

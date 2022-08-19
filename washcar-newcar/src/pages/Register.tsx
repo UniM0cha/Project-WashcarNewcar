@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import Burgermenu from '../components/Burgermenu';
-import Header from '../components/Header';
 import Loading from '../components/Loading';
 import { checkLogin } from '../functions/request';
 
@@ -30,11 +28,7 @@ const Register = () => {
     return <Navigate to="/login" />;
   }
 
-  return (
-    <div>
-      <div style={{ paddingTop: '80px' }}>등록 페이지</div>
-    </div>
-  );
+  return <div>등록 페이지</div>;
 };
 
 export default Register;
