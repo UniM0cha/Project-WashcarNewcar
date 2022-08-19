@@ -1,4 +1,4 @@
-import { API_SERVER } from '../global_variables';
+const API_SERVER = process.env.REACT_APP_API;
 
 interface Parameter {
   path: string;
