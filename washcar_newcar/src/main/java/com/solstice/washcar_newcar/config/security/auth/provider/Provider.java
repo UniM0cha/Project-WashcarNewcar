@@ -1,4 +1,4 @@
-package com.solstice.washcar_newcar.data.entity;
+package com.solstice.washcar_newcar.config.security.auth.provider;
 
 public enum Provider {
   Kakao("kakao"),

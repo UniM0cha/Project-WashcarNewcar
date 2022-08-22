@@ -1,7 +1,6 @@
 package com.solstice.washcar_newcar.data.entity;
 
 import java.util.Date;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +14,9 @@ import javax.validation.constraints.Email;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.solstice.washcar_newcar.config.security.auth.Role;
+import com.solstice.washcar_newcar.config.security.auth.provider.Provider;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,15 +29,16 @@ public class User {
   @GeneratedValue
   private Long userNumber;
 
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true)
   private String userId;
 
   @Email
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true)
   private String email;
 
   private String password;
   private String nickname;
+  private String organizationId;
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
@@ -53,13 +56,14 @@ public class User {
   private Date loginedDate;
 
   @Builder
-  public User(Long userNumber, String userId, String password, @Email String email, Role role, Provider provider,
-      String providerId,
-      Date createDate, Date loginedDate) {
+  public User(Long userNumber, String userId, @Email String email, String password, String nickname,
+      String organizationId, Role role, Provider provider, String providerId, Date createDate, Date loginedDate) {
     this.userNumber = userNumber;
     this.userId = userId;
-    this.password = password;
     this.email = email;
+    this.password = password;
+    this.nickname = nickname;
+    this.organizationId = organizationId;
     this.role = role;
     this.provider = provider;
     this.providerId = providerId;

@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.solstice.washcar_newcar.config.security.auth.provider.KakaoUserInfo;
 import com.solstice.washcar_newcar.config.security.auth.provider.OAuth2UserInfo;
-import com.solstice.washcar_newcar.data.entity.Provider;
-import com.solstice.washcar_newcar.data.entity.Role;
+import com.solstice.washcar_newcar.config.security.auth.provider.Provider;
 import com.solstice.washcar_newcar.data.entity.User;
 import com.solstice.washcar_newcar.data.repository.UserRepository;
 
@@ -51,7 +50,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     String providerId = oAuth2UserInfo.getProviderId();
     String userId = provider.toString() + "_" + providerId;
     String email = oAuth2UserInfo.getEmail();
-    Role role = Role.ROLE_CLIENT;
+    Role role = Role.ROLE_STAFF;
 
     User foundUser = userRepository.findByProviderAndProviderId(provider, providerId);
 
@@ -71,12 +70,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     } else {
       oAuth2UserDetails = new OAuth2UserDetails(foundUser, attributes);
     }
-
-    // DefaultOAuth2User의 생성자를 통해 ROLE_MEMBER를 가지고 있는 새로운 OAuth2User 객체를 만든다.
-    // OAuth2User newUser = new DefaultOAuth2User(
-    // Collections.singleton(new SimpleGrantedAuthority(Role.ROLE_CLIENT.name())),
-    // attributes, "id");
-    // log.info("UserPrincipal : " + newUser.toString());
 
     // 여기서 리턴한 객체가 시큐리티 세션의 Authentication 객체에 저장된다.
     return oAuth2UserDetails;

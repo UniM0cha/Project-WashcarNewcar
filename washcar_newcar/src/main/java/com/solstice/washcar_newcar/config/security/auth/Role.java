@@ -1,4 +1,4 @@
-package com.solstice.washcar_newcar.data.entity;
+package com.solstice.washcar_newcar.config.security.auth;
 
 public enum Role {
   // 세차를 하기 위해 플랫폼을 이용하는 고객
