@@ -34,8 +34,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
       Authentication authentication) throws IOException, ServletException {
     // 로그인 성공한 사용자 정보를 토대로 jwt 생성
     String jwt = jwtTokenProvider.generateToken(authentication);
-    log.info(frontServer);
-
     response.sendRedirect(frontServer + "/oauth2/redirect/" + jwt);
   }
 }
