@@ -1,0 +1,13 @@
+{
+  "code": null,
+  "url": "https://whattime.co.kr/solstice/test",
+  "name": "1시간 예약",
+  "slug": "test",
+  "color": "tangerine",
+  "description": null,
+  "max_invitee": 10,
+  "show_remain": true,
+  "order": 0,
+  "secret": false,
+  "active": true
+}

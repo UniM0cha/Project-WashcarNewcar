@@ -1,10 +1,17 @@
 package com.solstice.washcar_newcar.service.impl;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.solstice.washcar_newcar.data.dto.CalendarDto;
 import com.solstice.washcar_newcar.data.entity.User;
+import com.solstice.washcar_newcar.data.whattime.Calendar;
+import com.solstice.washcar_newcar.data.whattime.CalendarResponse;
+import com.solstice.washcar_newcar.data.whattime.OrganizationMember;
+import com.solstice.washcar_newcar.data.whattime.OrganizationMemberResponse;
+import com.solstice.washcar_newcar.data.whattime.WhattimeUser;
 import com.solstice.washcar_newcar.service.WhattimeService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,29 +33,46 @@ public class WhattimeServiceImpl implements WhattimeService {
   }
 
   @Override
-  public String getUserSlug(User user) {
+  public WhattimeUser getWhattimeUserFromUser(User user) {
 
     if (user.getOrganizationCode() == null) {
+      log.error("User 객체에 organizationCode가 없음");
       return null;
     }
 
-    String result = webClientWithToken.get()
+    OrganizationMemberResponse response = webClientWithToken.get()
         .uri("/organization_members/{organization_code}", user.getOrganizationCode())
         .retrieve()
-        .bodyToMono(String.class)
+        .bodyToMono(OrganizationMemberResponse.class)
         .block();
 
-    log.info(result);
-    return result;
+    log.info(response.toString());
+
+    return response.getResource().getUser();
   }
 
   @Override
-  public String createCalendar(CalendarDto calendar) {
+  public String createCalendar(Calendar calendar, WhattimeUser whattimeUser) {
+
     String result = webClientWithToken.post()
         .uri("/calendars/upsert")
         .bodyValue(calendar)
         .retrieve().bodyToMono(String.class).block();
-    return null;
+
+    return "ok";
+  }
+
+  @Override
+  public Calendar getCalendar(String code) {
+    CalendarResponse response = webClientWithToken.get()
+        .uri("/calendars/{code}", code)
+        .retrieve()
+        .bodyToMono(CalendarResponse.class)
+        .block();
+
+    log.info(response.getResource().toString());
+
+    return response.getResource();
   }
 
 }

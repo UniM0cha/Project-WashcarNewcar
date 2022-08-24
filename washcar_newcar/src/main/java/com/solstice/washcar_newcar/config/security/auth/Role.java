@@ -5,7 +5,7 @@ public enum Role {
   ROLE_CLIENT,
 
   // 세차장을 운영하는 사장님
-  ROLE_PRODUCER,
+  ROLE_PROVIDER,
 
   // 앱을 관리하는 사람들
   ROLE_ADMIN

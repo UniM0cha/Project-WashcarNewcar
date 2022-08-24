@@ -8,8 +8,9 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.solstice.washcar_newcar.data.dto.CalendarDto;
 import com.solstice.washcar_newcar.data.entity.User;
+import com.solstice.washcar_newcar.data.whattime.Calendar;
+import com.solstice.washcar_newcar.data.whattime.WhattimeUser;
 
 public interface WhattimeService {
 
@@ -24,12 +25,14 @@ public interface WhattimeService {
    * UserSlug 가져오기
    * 캘린더 생성에 필요한 user_slug를 반환하는 함수
    */
-  public String getUserSlug(User user);
+  public WhattimeUser getWhattimeUserFromUser(User user);
 
   /**
    * 캘린더 만들기
    * 캘린더 만들 때 필요한 것: user_slug, slug, name, description,
    * organization_id를 매개변수로 받아서 예약페이지(캘린더)를 생성한다.
    */
-  public String createCalendar(CalendarDto calendar);
+  public String createCalendar(Calendar calendar, WhattimeUser whattimeUser);
+
+  public Calendar getCalendar(String code);
 }

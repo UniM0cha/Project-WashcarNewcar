@@ -39,7 +39,7 @@ public class JwtTokenProvider {
   private String secretKey = "secretKey";
   private static Key JWT_SECRET;
 
-  private static final int JWT_EXPIRATION_MS = 1000 * 60 * 60; // 1시간
+  private static final int JWT_EXPIRATION_MS = 1000 * 60 * 60 * 6; // 6시간
 
   @PostConstruct
   protected void init() {

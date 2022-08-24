@@ -52,7 +52,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     String providerId = oAuth2UserInfo.getProviderId();
     String userId = provider.toString() + "_" + providerId;
     String email = oAuth2UserInfo.getEmail();
-    Role role = Role.ROLE_PRODUCER;
+    Role role = Role.ROLE_PROVIDER;
 
     User foundUser = userRepository.findByProviderAndProviderId(provider, providerId);
 
