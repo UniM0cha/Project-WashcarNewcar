@@ -2,8 +2,6 @@ package com.solstice.washcar_newcar.config.security.auth.provider;
 
 import java.util.Map;
 
-import com.solstice.washcar_newcar.data.entity.Provider;
-
 public class KakaoUserInfo implements OAuth2UserInfo {
 
   private Map<String, Object> attributes;

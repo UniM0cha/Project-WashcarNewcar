@@ -16,7 +16,6 @@ public class CustomWebMvcConfig implements WebMvcConfigurer {
 
   @Override
   public void addCorsMappings(CorsRegistry registry) {
-    log.info(frontServer);
     registry.addMapping("/**").allowedOrigins(frontServer);
   }
 }

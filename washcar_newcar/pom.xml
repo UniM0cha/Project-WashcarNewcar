@@ -96,6 +96,27 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- WebFlux -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+
+		<!-- M1 맥을 위한 io.netty -->
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-resolver-dns-native-macos</artifactId>
+			<version>4.1.76.Final</version>
+			<classifier>osx-aarch_64</classifier>
+		</dependency>
+
+		<!-- json-simple -->
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
 
 	</dependencies>
 

@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.solstice.washcar_newcar.config.security.auth.provider.KakaoUserInfo;
 import com.solstice.washcar_newcar.config.security.auth.provider.OAuth2UserInfo;
-import com.solstice.washcar_newcar.data.entity.Provider;
-import com.solstice.washcar_newcar.data.entity.Role;
+import com.solstice.washcar_newcar.config.security.auth.provider.Provider;
 import com.solstice.washcar_newcar.data.entity.User;
 import com.solstice.washcar_newcar.data.repository.UserRepository;
+import com.solstice.washcar_newcar.service.WhattimeService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
   private final UserRepository userRepository;
+  private final WhattimeService whattimeService;
 
   /**
    * loadUser 메서드는 사용자 정보를 요청할 수 있는 access token을 얻고 나서 실행된다.
@@ -51,7 +52,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     String providerId = oAuth2UserInfo.getProviderId();
     String userId = provider.toString() + "_" + providerId;
     String email = oAuth2UserInfo.getEmail();
-    Role role = Role.ROLE_CLIENT;
+    Role role = Role.ROLE_PROVIDER;
 
     User foundUser = userRepository.findByProviderAndProviderId(provider, providerId);
 
@@ -59,6 +60,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     OAuth2UserDetails oAuth2UserDetails = null;
     if (foundUser == null) {
       log.info("회원가입을 진행합니다.");
+
       User newUser = User.builder()
           .userId(userId)
           .provider(provider)
@@ -66,17 +68,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
           .email(email)
           .role(role)
           .build();
-      userRepository.save(newUser);
-      oAuth2UserDetails = new OAuth2UserDetails(newUser, attributes);
+
+      // 되는시간 회원가입
+      User whattimeRegisteredUser = whattimeService.register(newUser);
+
+      userRepository.save(whattimeRegisteredUser);
+      oAuth2UserDetails = new OAuth2UserDetails(whattimeRegisteredUser, attributes);
     } else {
       oAuth2UserDetails = new OAuth2UserDetails(foundUser, attributes);
     }
-
-    // DefaultOAuth2User의 생성자를 통해 ROLE_MEMBER를 가지고 있는 새로운 OAuth2User 객체를 만든다.
-    // OAuth2User newUser = new DefaultOAuth2User(
-    // Collections.singleton(new SimpleGrantedAuthority(Role.ROLE_CLIENT.name())),
-    // attributes, "id");
-    // log.info("UserPrincipal : " + newUser.toString());
 
     // 여기서 리턴한 객체가 시큐리티 세션의 Authentication 객체에 저장된다.
     return oAuth2UserDetails;

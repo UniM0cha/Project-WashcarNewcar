@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -25,12 +26,14 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
   private final JwtTokenProvider jwtTokenProvider;
 
+  @Value("${front_server}")
+  private String frontServer;
+
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
       Authentication authentication) throws IOException, ServletException {
     // 로그인 성공한 사용자 정보를 토대로 jwt 생성
     String jwt = jwtTokenProvider.generateToken(authentication);
-
-    response.sendRedirect("http://localhost:3000/oauth2/redirect/" + jwt);
+    response.sendRedirect(frontServer + "/oauth2/redirect/" + jwt);
   }
 }

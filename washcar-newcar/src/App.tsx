@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Reservation from './pages/Reservation';
 import LoginRedirect from './pages/LoginRedirect';
+import Seller from './pages/Seller';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/reservation" element={<Reservation />} />
           <Route path="/oauth2/redirect/:token" element={<LoginRedirect />} />
+          <Route path="/seller" element={<Seller />} />
         </Routes>
       </BrowserRouter>
     </IsBurgermenuOpenProvider>
