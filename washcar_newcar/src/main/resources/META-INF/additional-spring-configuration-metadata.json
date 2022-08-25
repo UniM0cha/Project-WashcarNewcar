@@ -1,0 +1,19 @@
+{
+  "properties": [
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "description": "A description for 'jwt.secret'"
+    },
+    {
+      "name": "front_server",
+      "type": "java.lang.String",
+      "description": "A description for 'front_server'"
+    },
+    {
+      "name": "whattime_api_key",
+      "type": "java.lang.String",
+      "description": "A description for 'whattime_api_key'"
+    }
+  ]
+}

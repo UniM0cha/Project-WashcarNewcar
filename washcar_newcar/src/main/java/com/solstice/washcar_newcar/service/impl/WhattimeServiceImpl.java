@@ -52,14 +52,21 @@ public class WhattimeServiceImpl implements WhattimeService {
   }
 
   @Override
-  public String createCalendar(Calendar calendar, WhattimeUser whattimeUser) {
+  public Calendar createCalendar(Calendar calendar, WhattimeUser whattimeUser) {
 
     String result = webClientWithToken.post()
         .uri("/calendars/upsert")
         .bodyValue(calendar)
         .retrieve().bodyToMono(String.class).block();
 
-    return "ok";
+    log.info(result);
+
+    CalendarResponse response = webClientWithToken.post()
+        .uri("/calendars/upsert")
+        .bodyValue(calendar)
+        .retrieve().bodyToMono(CalendarResponse.class).block();
+
+    return response.getResource();
   }
 
   @Override

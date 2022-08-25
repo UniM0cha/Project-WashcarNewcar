@@ -9,21 +9,16 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class Store {
+public class Location {
 
   @Id
   @GeneratedValue
-  private Long storeNumber;
-
-  private String name;
-  private String profileImage;
-  private String storeImage;
-  private String info;
-  private String whattimeId;
+  private Long locationId;
+  // 위도
+  private Double latitude;
+  // 경도
+  private Double longitude;
 
   @OneToOne
-  private Location location;
-
-  @OneToOne
-  private User user;
+  private Store store;
 }

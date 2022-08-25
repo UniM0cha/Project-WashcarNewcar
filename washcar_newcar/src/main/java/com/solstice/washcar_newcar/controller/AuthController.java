@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.solstice.washcar_newcar.config.security.auth.OAuth2UserDetails;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -21,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthController {
 
   @PostMapping("/check")
-  public boolean checkLogin(@AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails) {
+  public boolean checkLogin(@Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails) {
     if (oAuth2UserDetails != null) {
 
       log.info(
@@ -31,11 +32,5 @@ public class AuthController {
 
       return false;
     }
-  }
-
-  @GetMapping("/check")
-  public boolean getCheckLogin(@AuthenticationPrincipal OAuth2User principal) {
-    log.info(principal.toString());
-    return true;
   }
 }
