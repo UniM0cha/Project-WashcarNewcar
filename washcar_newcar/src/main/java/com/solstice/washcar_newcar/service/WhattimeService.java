@@ -1,6 +1,7 @@
 package com.solstice.washcar_newcar.service;
 
 import java.net.http.HttpClient;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.aspectj.apache.bcel.generic.ObjectType;
@@ -45,4 +46,6 @@ public interface WhattimeService {
    * @return 캘린더 객체
    */
   public Calendar getCalendar(String code);
+
+  public ArrayList<Calendar> getAllCalendar(User user);
 }

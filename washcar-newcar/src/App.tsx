@@ -3,7 +3,7 @@ import { IsBurgermenuOpenProvider } from './contexts/burgermenu';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Search from './pages/Search';
-import Register from './pages/Register';
+import Provider from './pages/Provider';
 import Login from './pages/Login';
 import Reservation from './pages/Reservation';
 import LoginRedirect from './pages/LoginRedirect';
@@ -18,8 +18,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route
-            path="/register"
-            element={<LoginCheck next={<Register />} />}
+            path="/provider"
+            element={<LoginCheck next={<Provider />} />}
           />
           <Route path="/login" element={<Login />} />
           <Route path="/reservation" element={<Reservation />} />

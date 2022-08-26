@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading';
 import { checkLogin } from '../functions/request';
 
@@ -15,6 +15,7 @@ interface LoginCheckProps {
 const LoginCheck = ({ next }: LoginCheckProps) => {
   const [isLogind, setIsLogind] = useState(false);
   const [ready, setReady] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     runAsync();
@@ -34,7 +35,7 @@ const LoginCheck = ({ next }: LoginCheckProps) => {
   }
 
   if (!isLogind) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   } else {
     return next;
   }

@@ -40,7 +40,8 @@ public class User {
 
   private String password;
   private String nickname;
-  private String organizationCode;
+  // whattime user code
+  private String userCode;
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
@@ -62,14 +63,14 @@ public class User {
 
   @Builder
   public User(Long userNumber, String userId, @Email String email, String password, String nickname,
-      String organizationCode, Role role, Provider provider, String providerId, Date createDate, Date loginedDate,
+      String userCode, Role role, Provider provider, String providerId, Date createDate, Date loginedDate,
       Store store) {
     this.userNumber = userNumber;
     this.userId = userId;
     this.email = email;
     this.password = password;
     this.nickname = nickname;
-    this.organizationCode = organizationCode;
+    this.userCode = userCode;
     this.role = role;
     this.provider = provider;
     this.providerId = providerId;
@@ -78,13 +79,13 @@ public class User {
     this.store = store;
   }
 
-  public User(User user, String organizationCode) {
+  public User(User user, String userCode) {
     this.userNumber = user.userNumber;
     this.userId = user.userId;
     this.email = user.email;
     this.password = user.password;
     this.nickname = user.nickname;
-    this.organizationCode = organizationCode;
+    this.userCode = userCode;
     this.role = user.role;
     this.provider = user.provider;
     this.providerId = user.providerId;

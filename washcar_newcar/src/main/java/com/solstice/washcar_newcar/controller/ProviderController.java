@@ -1,10 +1,14 @@
 package com.solstice.washcar_newcar.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.context.annotation.Role;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,9 +47,17 @@ public class ProviderController {
   }
 
   @GetMapping("/calendar")
-  public String getCalendar() {
-    whattimeService.getCalendar("vMrtvJM19X");
-    return "ok";
+  public ArrayList<Calendar> getAllCalendar(
+      @Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails) {
+    User user = oAuth2UserDetails.getUser();
+    ArrayList<Calendar> calendars = whattimeService.getAllCalendar(user);
+    return calendars;
+  }
+
+  @GetMapping("/calendar/{code}")
+  public Calendar getCalendar(@PathVariable String code) {
+    Calendar calendar = whattimeService.getCalendar(code);
+    return calendar;
   }
 
 }
