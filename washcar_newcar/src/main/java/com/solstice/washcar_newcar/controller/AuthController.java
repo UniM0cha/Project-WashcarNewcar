@@ -24,12 +24,12 @@ public class AuthController {
   @PostMapping("/check")
   public boolean checkLogin(@Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails) {
     if (oAuth2UserDetails != null) {
-
       log.info(
           "로그인 체크 : 유저ID=" + oAuth2UserDetails.getUsername());
       return true;
     } else {
-
+      log.error(
+          "데이터베이스에 유저가 존재하지 않음");
       return false;
     }
   }

@@ -26,6 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
     try {
       String jwt = getJwtFromRequest(request); // request에서 jwt 토큰을 꺼낸다.
+      // 토큰 검증
       if (jwt != null && jwtTokenProvider.validateToken(jwt)) {
 
         // jwt로부터 Authentication 객체를 만들어서 받아온다.

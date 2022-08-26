@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Reservation from './pages/Reservation';
 import LoginRedirect from './pages/LoginRedirect';
 import Seller from './pages/Seller';
+import LoginCheck from './pages/LoginCheck';
 
 function App() {
   return (
@@ -16,7 +17,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/register" element={<Register />} />
+          <Route
+            path="/register"
+            element={<LoginCheck next={<Register />} />}
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/reservation" element={<Reservation />} />
           <Route path="/oauth2/redirect/:token" element={<LoginRedirect />} />
