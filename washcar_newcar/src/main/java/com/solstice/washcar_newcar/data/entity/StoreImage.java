@@ -1,8 +1,10 @@
 package com.solstice.washcar_newcar.data.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -16,16 +18,14 @@ import lombok.Getter;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Builder
-public class Location {
-
+public class StoreImage {
   @Id
   @GeneratedValue
-  private Long locationId;
-  // 위도
-  private Double latitude;
-  // 경도
-  private Double longitude;
+  private Long storeImageNumber;
 
-  @OneToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   private Store store;
+
+  private String url;
+
 }

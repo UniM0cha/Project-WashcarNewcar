@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.solstice.washcar_newcar.config.security.auth.OAuth2UserDetails;
+import com.solstice.washcar_newcar.data.dto.StoreRegisterDto;
+import com.solstice.washcar_newcar.data.entity.Store;
 import com.solstice.washcar_newcar.data.entity.User;
 import com.solstice.washcar_newcar.data.whattime.Calendar;
 import com.solstice.washcar_newcar.data.whattime.WhattimeUser;
 import com.solstice.washcar_newcar.service.WhattimeService;
 
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,12 +36,22 @@ public class ProviderController {
 
   private final WhattimeService whattimeService;
 
+  @PostMapping("/register")
+  public Store register(@Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails,
+      @RequestBody StoreRegisterDto storeRegisterDto) {
+    log.info(storeRegisterDto.toString());
+    User user = oAuth2UserDetails.getUser();
+    Store newStore = whattimeService.register(user, storeRegisterDto);
+    return newStore;
+  }
+
   @PostMapping("/calendar")
   public Calendar createCalendar(@Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails,
       @RequestBody Calendar calendar) {
     log.info(calendar.toString());
     User user = oAuth2UserDetails.getUser();
-    WhattimeUser whattimeUser = whattimeService.getWhattimeUserFromUser(user);
+    Store store = user.getStore();
+    WhattimeUser whattimeUser = whattimeService.getWhattimeUserFromStore(store);
     Calendar newCalendar = whattimeService.createCalendar(calendar, whattimeUser);
     return newCalendar;
   }
