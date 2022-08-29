@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -15,10 +16,10 @@ import javax.validation.constraints.Email;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.solstice.washcar_newcar.config.security.auth.OAuth2UserDetails;
 import com.solstice.washcar_newcar.config.security.auth.Role;
 import com.solstice.washcar_newcar.config.security.auth.provider.Provider;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
   @Id
   @GeneratedValue
@@ -43,7 +46,7 @@ public class User {
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private Role role = Role.ROLE_CLIENT;
+  private Role role;
 
   @Enumerated(EnumType.STRING)
   private Provider provider;
@@ -58,22 +61,11 @@ public class User {
   @Temporal(TemporalType.TIMESTAMP)
   private Date loginedDate;
 
-  @OneToOne
+  @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
   private Store store;
-
-  @Builder
-  public User(Long userNumber, String userId, @Email String email, String password, String nickname,
-      Role role, Provider provider, String providerId, Date createDate, Date loginedDate, Store store) {
-    this.userNumber = userNumber;
-    this.userId = userId;
-    this.email = email;
-    this.password = password;
-    this.nickname = nickname;
-    this.role = role;
-    this.provider = provider;
-    this.providerId = providerId;
-    this.createDate = createDate;
-    this.loginedDate = loginedDate;
-    this.store = store;
-  }
 }
+
+/**
+ * @ManyToOne, @OneToOne : 즉시로딩
+ * @OneToMany, @ManyToMany : 지연로딩
+ */

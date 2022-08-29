@@ -1,11 +1,9 @@
 package com.solstice.washcar_newcar.data.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.solstice.washcar_newcar.data.entity.StoreImage;
 
 import lombok.Data;
 

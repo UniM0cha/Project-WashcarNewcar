@@ -37,37 +37,40 @@ public class ProviderController {
   private final WhattimeService whattimeService;
 
   @PostMapping("/register")
-  public Store register(@Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails,
+  public String register(@Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails,
       @RequestBody StoreRegisterDto storeRegisterDto) {
     log.info(storeRegisterDto.toString());
     User user = oAuth2UserDetails.getUser();
     Store newStore = whattimeService.register(user, storeRegisterDto);
-    return newStore;
+    return newStore.getWhattimeUserCode();
   }
 
-  @PostMapping("/calendar")
-  public Calendar createCalendar(@Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails,
-      @RequestBody Calendar calendar) {
-    log.info(calendar.toString());
-    User user = oAuth2UserDetails.getUser();
-    Store store = user.getStore();
-    WhattimeUser whattimeUser = whattimeService.getWhattimeUserFromStore(store);
-    Calendar newCalendar = whattimeService.createCalendar(calendar, whattimeUser);
-    return newCalendar;
-  }
+  // @PostMapping("/calendar")
+  // public Calendar createCalendar(@Parameter(hidden = true)
+  // @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails,
+  // @RequestBody Calendar calendar) {
+  // log.info(calendar.toString());
+  // User user = oAuth2UserDetails.getUser();
+  // Store store = user.getStore();
+  // WhattimeUser whattimeUser = whattimeService.getWhattimeUserFromStore(store);
+  // Calendar newCalendar = whattimeService.createCalendar(calendar,
+  // whattimeUser);
+  // return newCalendar;
+  // }
 
-  @GetMapping("/calendar")
-  public ArrayList<Calendar> getAllCalendar(
-      @Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails) {
-    User user = oAuth2UserDetails.getUser();
-    ArrayList<Calendar> calendars = whattimeService.getAllCalendar(user);
-    return calendars;
-  }
+  // @GetMapping("/calendar")
+  // public ArrayList<Calendar> getAllCalendar(
+  // @Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails
+  // oAuth2UserDetails) {
+  // User user = oAuth2UserDetails.getUser();
+  // ArrayList<Calendar> calendars = whattimeService.getAllCalendar(user);
+  // return calendars;
+  // }
 
-  @GetMapping("/calendar/{code}")
-  public Calendar getCalendar(@PathVariable String code) {
-    Calendar calendar = whattimeService.getCalendar(code);
-    return calendar;
-  }
+  // @GetMapping("/calendar/{code}")
+  // public Calendar getCalendar(@PathVariable String code) {
+  // Calendar calendar = whattimeService.getCalendar(code);
+  // return calendar;
+  // }
 
 }

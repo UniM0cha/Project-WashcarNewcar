@@ -9,11 +9,9 @@ import com.solstice.washcar_newcar.data.entity.User;
 import com.solstice.washcar_newcar.data.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class CustomUserDetailsService implements UserDetailsService {
 
   private final UserRepository userRepository;

@@ -6,16 +6,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Data
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Menu {
   @Id
@@ -26,4 +25,11 @@ public class Menu {
   private Store store;
 
   private String whattimeCalendarCode;
+
+  public Menu setStore(Store store) {
+    return Menu.builder()
+        .whattimeCalendarCode(this.whattimeCalendarCode)
+        .store(store)
+        .build();
+  }
 }

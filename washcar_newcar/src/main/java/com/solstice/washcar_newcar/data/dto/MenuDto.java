@@ -3,6 +3,7 @@ package com.solstice.washcar_newcar.data.dto;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.solstice.washcar_newcar.data.entity.Menu;
+import com.solstice.washcar_newcar.data.entity.Store;
 
 import lombok.Data;
 
@@ -11,9 +12,10 @@ import lombok.Data;
 public class MenuDto {
   private String whattimeCalendarCode;
 
-  public Menu toEntity() {
+  public Menu toEntity(Store store) {
     return Menu.builder()
         .whattimeCalendarCode(this.whattimeCalendarCode)
+        .store(store)
         .build();
   }
 }

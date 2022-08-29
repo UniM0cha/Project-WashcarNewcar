@@ -13,7 +13,6 @@ import com.solstice.washcar_newcar.config.security.auth.provider.OAuth2UserInfo;
 import com.solstice.washcar_newcar.config.security.auth.provider.Provider;
 import com.solstice.washcar_newcar.data.entity.User;
 import com.solstice.washcar_newcar.data.repository.UserRepository;
-import com.solstice.washcar_newcar.service.WhattimeService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

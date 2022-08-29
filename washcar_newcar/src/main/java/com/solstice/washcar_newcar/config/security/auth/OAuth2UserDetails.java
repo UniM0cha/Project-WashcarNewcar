@@ -11,7 +11,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import com.solstice.washcar_newcar.data.entity.User;
 
 import lombok.Getter;
-import lombok.ToString;
 
 @Getter
 public class OAuth2UserDetails implements UserDetails, OAuth2User {

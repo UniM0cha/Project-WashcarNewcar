@@ -5,18 +5,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Data
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class StoreImage {
   @Id
@@ -28,4 +26,10 @@ public class StoreImage {
 
   private String url;
 
+  public StoreImage setStore(Store store) {
+    return StoreImage.builder()
+        .store(store)
+        .url(this.url)
+        .build();
+  }
 }

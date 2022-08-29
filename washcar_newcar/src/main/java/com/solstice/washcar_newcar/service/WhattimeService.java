@@ -1,13 +1,6 @@
 package com.solstice.washcar_newcar.service;
 
-import java.net.http.HttpClient;
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.aspectj.apache.bcel.generic.ObjectType;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import com.solstice.washcar_newcar.data.dto.StoreRegisterDto;
 import com.solstice.washcar_newcar.data.entity.Store;

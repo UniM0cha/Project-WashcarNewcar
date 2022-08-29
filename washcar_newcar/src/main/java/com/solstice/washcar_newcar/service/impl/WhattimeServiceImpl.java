@@ -48,6 +48,13 @@ public class WhattimeServiceImpl implements WhattimeService {
 
   @Override
   public Store register(User user, StoreRegisterDto storeRegisterDto) {
+
+    Store foundStore = storeRepository.findByUser(user);
+    if (foundStore != null) {
+      log.error("중복된 매장 생성 요청입니다.");
+      return null;
+    }
+
     log.info("매장 생성 => Whattime 회원가입 요청");
 
     /**
@@ -56,44 +63,33 @@ public class WhattimeServiceImpl implements WhattimeService {
      */
     String whattimeuserCode = "MvMemAB7y8";
 
-    // DTO에 있는 StoreImage 객체 배열을 엔티티 StoreImage 객체 배열로 변환
-    // List<StoreImage> storeImages = new ArrayList<>();
-    // storeRegisterDto.getStoreImages().forEach(storeImage ->
-    // storeImages.add(storeImage.toEntity()));
-
-    List<StoreImage> storeImages = storeRegisterDto.getStoreImages().stream()
-        .map((storeImage) -> storeImage.toEntity())
-        .toList();
-
-    List<Menu> menus = storeRegisterDto.getMenus().stream()
-        .map((menu) -> menu.toEntity()).toList();
-
-    Location location = storeRegisterDto.getLocation().toEntity();
-
+    // Store 저장
     Store whattimeRegisteredStore = Store.builder()
+        .user(user)
         .name(storeRegisterDto.getName())
         .profileImage(storeRegisterDto.getProfileImage())
         .info(storeRegisterDto.getInfo())
-        .storeImages(storeImages)
-        .location(location)
-        .menus(menus)
-        .user(user)
         .whattimeUserCode(whattimeuserCode)
         .build();
 
-    storeRepository.save(whattimeRegisteredStore);
+    Store savedStore = storeRepository.save(whattimeRegisteredStore);
 
-    List<StoreImage> storeImages = store.getStoreImages();
-    List<StoreImage> savedStoreImages = storeImageRepository.saveAll(storeImages);
+    // 나머지 요소 저장
+    log.info("DTO 객체에서 엔티티로 변환하면서 store 객체 주입");
+    List<StoreImage> storeImages = storeRegisterDto.getStoreImages().stream()
+        .map((storeImage) -> storeImage.toEntity(savedStore))
+        .toList();
+    storeImageRepository.saveAll(storeImages);
 
-    Location location = store.getLocation();
-    Location savedLocation = locationRepository.save(location);
+    List<Menu> menus = storeRegisterDto.getMenus().stream()
+        .map((menu) -> menu.toEntity(savedStore)).toList();
+    menuRepository.saveAll(menus);
 
-    List<Menu> menus = store.getMenus();
-    List<Menu> savedMenus = menuRepository.saveAll(menus);
+    Location location = storeRegisterDto.getLocation().toEntity(savedStore);
+    locationRepository.save(location);
 
-    log.info("Whattime 회원가입 후 받은 user_code : " + whattimeRegisteredStore.getWhattimeUserCode());
-    return whattimeRegisteredStore;
+    log.info("Whattime 회원가입 후 받은 user_code : " + savedStore.getWhattimeUserCode());
+    return savedStore;
   }
 
   @Override

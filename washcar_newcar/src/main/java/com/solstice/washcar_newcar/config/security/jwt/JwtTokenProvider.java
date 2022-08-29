@@ -5,16 +5,13 @@ import java.security.Key;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
-import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import com.solstice.washcar_newcar.config.security.auth.CustomOAuth2UserService;
 import com.solstice.washcar_newcar.config.security.auth.CustomUserDetailsService;
 
 import io.jsonwebtoken.Claims;
