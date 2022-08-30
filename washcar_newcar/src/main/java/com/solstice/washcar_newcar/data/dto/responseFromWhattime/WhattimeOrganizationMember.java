@@ -1,4 +1,4 @@
-package com.solstice.washcar_newcar.data.whattime;
+package com.solstice.washcar_newcar.data.dto.responseFromWhattime;
 
 import java.util.Date;
 
@@ -9,19 +9,13 @@ import lombok.Data;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class WhattimeUser {
+public class WhattimeOrganizationMember {
   private String uri;
   private String code;
-  private String email;
   private String role;
-  private String name;
-  private String slug;
-  private String homeUrl;
-  private String message;
-  private String timeZone;
-  private String imgUrl;
-  private String logoUrl;
-  private String shareImgUrl;
-  private Date updatedAt;
+  private String approve;
+  private Date updateAt;
   private Date createdAt;
+
+  private WhattimeUser user;
 }

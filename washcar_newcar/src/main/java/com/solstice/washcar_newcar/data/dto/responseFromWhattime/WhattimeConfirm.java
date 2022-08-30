@@ -1,15 +1,17 @@
-package com.solstice.washcar_newcar.data.whattime;
+package com.solstice.washcar_newcar.data.dto.responseFromWhattime;
 
 import java.util.List;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class Confirm {
+@Builder
+public class WhattimeConfirm {
   // 예약이 완료되면
   // normal - 예약자 정보, 일정 정보 표시
   // redirect - 다른 웹페이지로 이동

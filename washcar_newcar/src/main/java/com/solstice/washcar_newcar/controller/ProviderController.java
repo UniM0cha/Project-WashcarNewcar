@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.solstice.washcar_newcar.config.security.auth.OAuth2UserDetails;
-import com.solstice.washcar_newcar.data.dto.StoreRegisterDto;
+import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientCalendarDto;
+import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientStoreDto;
+import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeCalendar;
+import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeUser;
 import com.solstice.washcar_newcar.data.entity.Store;
 import com.solstice.washcar_newcar.data.entity.User;
-import com.solstice.washcar_newcar.data.whattime.Calendar;
-import com.solstice.washcar_newcar.data.whattime.WhattimeUser;
+import com.solstice.washcar_newcar.service.StoreService;
 import com.solstice.washcar_newcar.service.WhattimeService;
 
 import io.swagger.v3.oas.annotations.Parameter;
@@ -35,28 +37,39 @@ import lombok.extern.slf4j.Slf4j;
 public class ProviderController {
 
   private final WhattimeService whattimeService;
+  private final StoreService storeService;
 
   @PostMapping("/register")
   public String register(@Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails,
-      @RequestBody StoreRegisterDto storeRegisterDto) {
+      @RequestBody ClientStoreDto storeRegisterDto) {
+    log.info("매장생성, whattime 회원가입 요청");
     log.info(storeRegisterDto.toString());
     User user = oAuth2UserDetails.getUser();
     Store newStore = whattimeService.register(user, storeRegisterDto);
-    return newStore.getWhattimeUserCode();
+    return "ok";
   }
 
-  // @PostMapping("/calendar")
-  // public Calendar createCalendar(@Parameter(hidden = true)
-  // @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails,
-  // @RequestBody Calendar calendar) {
-  // log.info(calendar.toString());
-  // User user = oAuth2UserDetails.getUser();
-  // Store store = user.getStore();
-  // WhattimeUser whattimeUser = whattimeService.getWhattimeUserFromStore(store);
-  // Calendar newCalendar = whattimeService.createCalendar(calendar,
-  // whattimeUser);
-  // return newCalendar;
-  // }
+  @PostMapping("/calendar")
+  public String createCalendar(
+      @Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails,
+      @RequestBody ClientCalendarDto calendarDto) {
+    log.info("캘린더 생성 요청");
+    log.info(calendarDto.toString());
+
+    User user = oAuth2UserDetails.getUser();
+
+    // 1. 데이터베이스에서 user를 통해서 store를 불러온다
+    Store store = storeService.findByUser(user);
+    log.info("user를 통해 가져온 store : " + store.toString());
+
+    // 2. 불러온 store에서 whattimeUser를 가져온다.
+    WhattimeUser whattimeUser = whattimeService.getWhattimeUserFromStore(store);
+
+    // 3. 캘린더 생성
+    whattimeService.createCalendar(calendarDto, whattimeUser);
+
+    return "ok";
+  }
 
   // @GetMapping("/calendar")
   // public ArrayList<Calendar> getAllCalendar(

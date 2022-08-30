@@ -1,4 +1,4 @@
-package com.solstice.washcar_newcar.data.dto;
+package com.solstice.washcar_newcar.data.dto.requestToWhattime;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class MenuDto {
+public class WhattimeMenuDto {
   private String whattimeCalendarCode;
 
   public Menu toEntity(Store store) {
