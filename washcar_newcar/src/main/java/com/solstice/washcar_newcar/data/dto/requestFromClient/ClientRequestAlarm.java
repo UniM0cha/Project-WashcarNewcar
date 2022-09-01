@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ClientAlarmDto {
+public class ClientRequestAlarm {
   private boolean emailGuest;
   private boolean smsGuest;
   private boolean kakaoGuest;
@@ -24,24 +24,4 @@ public class ClientAlarmDto {
   private String hostAlarmKind;
   private boolean cancelReschedule;
   private String cancelPolicy;
-
-  public WhattimeAlarm toAlarm() {
-    return WhattimeAlarm.builder()
-        .emailGuest(emailGuest)
-        .smsGuest(smsGuest)
-        .kakaoGuest(kakaoGuest)
-        .smsGuestReminder(smsGuestReminder)
-        .smsGuestReminderDuration(smsGuestReminderDuration)
-        .smsGuestReminderDurationKind(smsGuestReminderDurationKind)
-        .kakaoGuestReminder(kakaoGuestReminder)
-        .kakaoGuestReminderDuration(kakaoGuestReminderDuration)
-        .kakaoGuestReminderDurationKind(kakaoGuestReminderDurationKind)
-        .emailHost(emailHost)
-        .smsHost(smsHost)
-        .kakaoHost(kakaoHost)
-        .hostAlarmKind(hostAlarmKind)
-        .cancelReschedule(cancelReschedule)
-        .cancelPolicy(cancelPolicy)
-        .build();
-  }
 }

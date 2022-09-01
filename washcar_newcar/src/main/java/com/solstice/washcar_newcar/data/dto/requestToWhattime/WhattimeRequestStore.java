@@ -11,13 +11,13 @@ import lombok.Data;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class WhattimeStoreDto {
+public class WhattimeRequestStore {
   private String name;
   private String profileImage;
   private String info;
-  private List<WhattimeStoreImageDto> storeImages;
-  private List<WhattimeMenuDto> menus;
-  private WhattimeLocationDto location;
+  private List<WhattimeRequestStoreImage> storeImages;
+  private List<WhattimeRequestMenu> menus;
+  // private WhattimeLocationDto location;
 
   public Store whattimeRegister(User user, String whattimeuserCode) {
     return Store.builder()

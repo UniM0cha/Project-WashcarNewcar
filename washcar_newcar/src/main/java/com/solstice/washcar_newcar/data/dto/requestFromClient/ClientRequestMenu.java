@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ClientMenuDto {
+public class ClientRequestMenu {
   private String whattimeCalendarCode;
 
   public Menu toEntity(Store store) {

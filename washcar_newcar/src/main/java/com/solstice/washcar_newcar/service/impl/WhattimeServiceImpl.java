@@ -1,6 +1,7 @@
 package com.solstice.washcar_newcar.service.impl;
 
 import java.net.URL;
+import java.security.DrbgParameters.Reseed;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,9 +14,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriBuilder;
 
-import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientCalendarDto;
-import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientStoreDto;
-import com.solstice.washcar_newcar.data.dto.requestToWhattime.WhattimeCalendarDto;
+import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestBase;
+import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestCalendar;
+import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestStore;
+import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestSurvey;
+import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestTime;
+import com.solstice.washcar_newcar.data.dto.requestToWhattime.WhattimeRequestAlarm;
+import com.solstice.washcar_newcar.data.dto.requestToWhattime.WhattimeRequestBase;
+import com.solstice.washcar_newcar.data.dto.requestToWhattime.WhattimeRequestCalendar;
+import com.solstice.washcar_newcar.data.dto.requestToWhattime.WhattimeRequestSurvey;
+import com.solstice.washcar_newcar.data.dto.requestToWhattime.WhattimeRequestTime;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeCalendar;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeCalendarListResponse;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeCalendarResponse;
@@ -49,7 +57,7 @@ public class WhattimeServiceImpl implements WhattimeService {
   private final MenuRepository menuRepository;
 
   @Override
-  public Store register(User user, ClientStoreDto storeRegisterDto) {
+  public Store register(User user, ClientRequestStore storeRegisterDto) {
 
     Store foundStore = storeRepository.findByUser(user);
     if (foundStore != null) {
@@ -99,51 +107,111 @@ public class WhattimeServiceImpl implements WhattimeService {
         .bodyToMono(WhattimeUserResponse.class)
         .block();
 
-    log.info("getWhattimeUserFromStore :");
-    log.info(response.toString());
+    log.info("getWhattimeUserFromStore : " + response.toString());
 
     return response.getResource();
   }
 
   @Override
-  public WhattimeCalendar createCalendar(ClientCalendarDto clientCalendarDto, WhattimeUser whattimeUser) {
+  public WhattimeCalendar createCalendar(ClientRequestCalendar clientRequestCalendar, WhattimeUser whattimeUser) {
 
-    WhattimeCalendarDto whattimeCalendarDto = clientCalendarDto.toWhattimeCalendarDto(whattimeUser);
+    WhattimeRequestCalendar whattimeCalendarDto = clientRequestCalendar.toWhattimeCalendarDto(whattimeUser);
+    log.info("Whattime으로 보낼 값 : " + whattimeCalendarDto.toString());
 
     WhattimeCalendarResponse response = webClientWithToken.post()
         .uri("/calendars/upsert")
         .bodyValue(whattimeCalendarDto)
         .retrieve().bodyToMono(WhattimeCalendarResponse.class).block();
 
-    log.info("createCalendar :");
-    log.info(response.getResource().toString());
+    WhattimeRequestAlarm whattimeRequestAlarm = new WhattimeRequestAlarm(
+        response.getResource().getCode(),
+        false,
+        true,
+        true,
+        true,
+        1,
+        "hour",
+        true,
+        1,
+        "hour",
+        false,
+        true,
+        true,
+        null,
+        false,
+        null);
+
+    webClientWithToken.post()
+        .uri("/calendars/upsert")
+        .bodyValue(whattimeRequestAlarm)
+        .retrieve().bodyToMono(WhattimeCalendarResponse.class).block();
+
+    log.info("캘린더 생성 후 반환 값 : " + response.getResource().toString());
+
+    WhattimeCalendar calendar = response.getResource();
+    return calendar;
+  }
+
+  @Override
+  public WhattimeCalendar updateCalendarBase(ClientRequestBase clientRequestBaseDto) {
+    WhattimeRequestBase whattimeRequestBase = clientRequestBaseDto.toWhattimeRequestBase();
+
+    WhattimeCalendarResponse response = webClientWithToken.post()
+        .uri("/calendars/upsert")
+        .bodyValue(whattimeRequestBase)
+        .retrieve().bodyToMono(WhattimeCalendarResponse.class).block();
 
     return response.getResource();
   }
 
   @Override
-  public WhattimeCalendar getCalendar(String code) {
-    WhattimeCalendarResponse response = webClientWithToken.get()
-        .uri("/calendars/{code}", code)
-        .retrieve()
-        .bodyToMono(WhattimeCalendarResponse.class)
-        .block();
+  public WhattimeCalendar updateCalendarTime(ClientRequestTime clientRequestTime) {
+    WhattimeRequestTime whattimeRequestTime = clientRequestTime.toWhattimeRequestTime();
 
-    log.info(response.getResource().toString());
+    WhattimeCalendarResponse response = webClientWithToken.post()
+        .uri("/calendars/upsert")
+        .bodyValue(whattimeRequestTime)
+        .retrieve().bodyToMono(WhattimeCalendarResponse.class).block();
 
     return response.getResource();
   }
 
   @Override
-  public ArrayList<WhattimeCalendar> getAllCalendar(Store store) {
-    String whattimeUserCode = store.getWhattimeUserCode();
-    WhattimeCalendarListResponse response = webClientWithToken.get()
-        .uri(uriBuilder -> uriBuilder.path("/calendars")
-            .queryParam("user", "https://api.whattime.co.kr/v1/users/" + whattimeUserCode).build())
-        .retrieve()
-        .bodyToMono(WhattimeCalendarListResponse.class)
-        .block();
-    return response.getCollection();
+  public WhattimeCalendar updateCalendarSurvey(ClientRequestSurvey clientRequestSurvey) {
+    WhattimeRequestSurvey whattimeRequestSurvey = clientRequestSurvey.toWhattimeRequestSurvey();
+
+    WhattimeCalendarResponse response = webClientWithToken.post()
+        .uri("/calendars/upsert")
+        .bodyValue(whattimeRequestSurvey)
+        .retrieve().bodyToMono(WhattimeCalendarResponse.class).block();
+
+    return response.getResource();
   }
+
+  // @Override
+  // public WhattimeCalendar getCalendar(String code) {
+  // WhattimeCalendarResponse response = webClientWithToken.get()
+  // .uri("/calendars/{code}", code)
+  // .retrieve()
+  // .bodyToMono(WhattimeCalendarResponse.class)
+  // .block();
+
+  // log.info(response.getResource().toString());
+
+  // return response.getResource();
+  // }
+
+  // @Override
+  // public ArrayList<WhattimeCalendar> getAllCalendar(Store store) {
+  // String whattimeUserCode = store.getWhattimeUserCode();
+  // WhattimeCalendarListResponse response = webClientWithToken.get()
+  // .uri(uriBuilder -> uriBuilder.path("/calendars")
+  // .queryParam("user", "https://api.whattime.co.kr/v1/users/" +
+  // whattimeUserCode).build())
+  // .retrieve()
+  // .bodyToMono(WhattimeCalendarListResponse.class)
+  // .block();
+  // return response.getCollection();
+  // }
 
 }

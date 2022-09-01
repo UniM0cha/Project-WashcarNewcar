@@ -1,4 +1,4 @@
-package com.solstice.washcar_newcar.data.dto.requestFromClient;
+package com.solstice.washcar_newcar.data.dto.requestToWhattime;
 
 import java.util.List;
 
@@ -7,23 +7,16 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeQuestion;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeSurvey;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ClientQuestionDto {
+@AllArgsConstructor
+public class WhattimeRequestQuestion {
   private String title;
   private String kind;
   private boolean required;
   private boolean on;
-
-  public WhattimeQuestion toQuestion() {
-    return WhattimeQuestion.builder()
-        .title(title)
-        .kind(kind)
-        .required(required)
-        .on(on)
-        .build();
-  }
-
 }

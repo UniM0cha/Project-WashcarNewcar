@@ -13,7 +13,6 @@ import lombok.Data;
 @Builder
 public class WhattimeCalendar {
   private String uri;
-  private String url;
   private String code;
   private String kind;
   private String name;

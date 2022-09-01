@@ -1,6 +1,7 @@
 package com.solstice.washcar_newcar.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.context.annotation.Role;
@@ -15,8 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.solstice.washcar_newcar.config.security.auth.OAuth2UserDetails;
-import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientCalendarDto;
-import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientStoreDto;
+import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestBase;
+import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestCalendar;
+import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestConfirm;
+import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestStore;
+import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestSurvey;
+import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestTime;
+import com.solstice.washcar_newcar.data.dto.requestToWhattime.WhattimeRequestAlarm;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeCalendar;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeUser;
 import com.solstice.washcar_newcar.data.entity.Store;
@@ -41,7 +47,7 @@ public class ProviderController {
 
   @PostMapping("/register")
   public String register(@Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails,
-      @RequestBody ClientStoreDto storeRegisterDto) {
+      @RequestBody ClientRequestStore storeRegisterDto) {
     log.info("매장생성, whattime 회원가입 요청");
     log.info(storeRegisterDto.toString());
     User user = oAuth2UserDetails.getUser();
@@ -50,26 +56,61 @@ public class ProviderController {
   }
 
   @PostMapping("/calendar")
-  public String createCalendar(
+  public WhattimeCalendar createCalendar(
       @Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails,
-      @RequestBody ClientCalendarDto calendarDto) {
+      @RequestBody ClientRequestCalendar clientRequestCalendar) {
     log.info("캘린더 생성 요청");
-    log.info(calendarDto.toString());
-
     User user = oAuth2UserDetails.getUser();
-
-    // 1. 데이터베이스에서 user를 통해서 store를 불러온다
     Store store = storeService.findByUser(user);
-    log.info("user를 통해 가져온 store : " + store.toString());
-
-    // 2. 불러온 store에서 whattimeUser를 가져온다.
     WhattimeUser whattimeUser = whattimeService.getWhattimeUserFromStore(store);
+    WhattimeCalendar whattimeCalendar = whattimeService.createCalendar(clientRequestCalendar, whattimeUser);
 
-    // 3. 캘린더 생성
-    whattimeService.createCalendar(calendarDto, whattimeUser);
-
-    return "ok";
+    log.info("처리가 모두 끝난 후 반환된 코드로 리다이렉트");
+    return whattimeCalendar;
   }
+
+  @PostMapping("/calendar/base")
+  public WhattimeCalendar updateCalendarBase(@RequestBody ClientRequestBase clientRequestBase) {
+    return whattimeService.updateCalendarBase(clientRequestBase);
+  }
+
+  @PostMapping("/calendar/time")
+  public WhattimeCalendar updateCalendarTime(@RequestBody ClientRequestTime clientRequestTime) {
+    return whattimeService.updateCalendarTime(clientRequestTime);
+  }
+
+  @PostMapping("/calendar/survey")
+  public WhattimeCalendar updateCalendarSurvey(@RequestBody ClientRequestSurvey clientRequestSurvey) {
+    return whattimeService.updateCalendarSurvey(clientRequestSurvey);
+  }
+
+  @PostMapping("/calendar/confirm")
+  public WhattimeCalendar updateCalendarConfirm(@RequestBody ClientRequestConfirm clientRequestConfirm) {
+    return whattimeService.updateCalendarConfirm(clientRequestConfirm);
+  }
+
+  // @PostMapping("/calendar")
+  // public String createCalendar(
+  // @Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails
+  // oAuth2UserDetails,
+  // @RequestBody ClientRequestCalendarDto clientRequestCalendarDto) {
+  // log.info("캘린더 생성 요청");
+  // log.info(clientRequestCalendarDto.toString());
+
+  // User user = oAuth2UserDetails.getUser();
+
+  // // 1. 데이터베이스에서 user를 통해서 store를 불러온다
+  // Store store = storeService.findByUser(user);
+  // log.info("user를 통해 가져온 store : " + store.toString());
+
+  // // 2. 불러온 store에서 whattimeUser를 가져온다.
+  // WhattimeUser whattimeUser = whattimeService.getWhattimeUserFromStore(store);
+
+  // // 3. 캘린더 생성
+  // whattimeService.createCalendar(clientRequestCalendarDto, whattimeUser);
+
+  // return "ok";
+  // }
 
   // @GetMapping("/calendar")
   // public ArrayList<Calendar> getAllCalendar(
