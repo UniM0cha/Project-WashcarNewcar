@@ -1,34 +1,24 @@
 package com.solstice.washcar_newcar.service.impl;
 
-import java.net.URL;
-import java.security.DrbgParameters.Reseed;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoProperties.Storage;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriBuilder;
 
 import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestBase;
 import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestCalendar;
+import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestConfirm;
 import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestStore;
 import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestSurvey;
 import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestTime;
 import com.solstice.washcar_newcar.data.dto.requestToWhattime.WhattimeRequestAlarm;
 import com.solstice.washcar_newcar.data.dto.requestToWhattime.WhattimeRequestBase;
 import com.solstice.washcar_newcar.data.dto.requestToWhattime.WhattimeRequestCalendar;
+import com.solstice.washcar_newcar.data.dto.requestToWhattime.WhattimeRequestConfirm;
 import com.solstice.washcar_newcar.data.dto.requestToWhattime.WhattimeRequestSurvey;
 import com.solstice.washcar_newcar.data.dto.requestToWhattime.WhattimeRequestTime;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeCalendar;
-import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeCalendarListResponse;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeCalendarResponse;
-import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeOrganizationMember;
-import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeOrganizationMemberResponse;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeUser;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeUserResponse;
 import com.solstice.washcar_newcar.data.entity.Location;
@@ -188,30 +178,15 @@ public class WhattimeServiceImpl implements WhattimeService {
     return response.getResource();
   }
 
-  // @Override
-  // public WhattimeCalendar getCalendar(String code) {
-  // WhattimeCalendarResponse response = webClientWithToken.get()
-  // .uri("/calendars/{code}", code)
-  // .retrieve()
-  // .bodyToMono(WhattimeCalendarResponse.class)
-  // .block();
+  @Override
+  public WhattimeCalendar updateCalendarConfirm(ClientRequestConfirm clientRequestConfirm) {
+    WhattimeRequestConfirm whattimeRequestConfirm = clientRequestConfirm.toWhattimeRequestConfirm();
 
-  // log.info(response.getResource().toString());
+    WhattimeCalendarResponse response = webClientWithToken.post()
+        .uri("/calendars/upsert")
+        .bodyValue(whattimeRequestConfirm)
+        .retrieve().bodyToMono(WhattimeCalendarResponse.class).block();
 
-  // return response.getResource();
-  // }
-
-  // @Override
-  // public ArrayList<WhattimeCalendar> getAllCalendar(Store store) {
-  // String whattimeUserCode = store.getWhattimeUserCode();
-  // WhattimeCalendarListResponse response = webClientWithToken.get()
-  // .uri(uriBuilder -> uriBuilder.path("/calendars")
-  // .queryParam("user", "https://api.whattime.co.kr/v1/users/" +
-  // whattimeUserCode).build())
-  // .retrieve()
-  // .bodyToMono(WhattimeCalendarListResponse.class)
-  // .block();
-  // return response.getCollection();
-  // }
-
+    return response.getResource();
+  }
 }

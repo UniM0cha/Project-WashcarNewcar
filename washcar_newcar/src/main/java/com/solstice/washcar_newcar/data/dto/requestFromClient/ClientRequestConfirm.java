@@ -12,17 +12,19 @@ import lombok.Data;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ClientRequestConfirm {
+  private String code;
+  private String confirmWaitingMessage;
   private String phone;
 
-  public WhattimeRequestConfirm toWhattimeConfirmDto() {
-    return WhattimeRequestConfirm.builder()
-        .confirmKind("normal")
-        .confirmWaiting(true)
-        .confirmWaitingMessage("잠시 기다려주세요.")
-        .emailPublic(true)
-        .phonePublic(true)
-        .phone(phone)
-        .build();
+  public WhattimeRequestConfirm toWhattimeRequestConfirm() {
+    return new WhattimeRequestConfirm(
+        code,
+        "normal",
+        true,
+        confirmWaitingMessage,
+        true,
+        true,
+        phone);
   }
 
 }

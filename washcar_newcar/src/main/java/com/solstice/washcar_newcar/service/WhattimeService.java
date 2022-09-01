@@ -33,8 +33,4 @@ public interface WhattimeService {
   public WhattimeCalendar updateCalendarSurvey(ClientRequestSurvey clientRequestSurvey);
 
   public WhattimeCalendar updateCalendarConfirm(ClientRequestConfirm clientRequestConfirm);
-
-  // public WhattimeCalendar getCalendar(String code);
-
-  // public ArrayList<WhattimeCalendar> getAllCalendar(Store store);
 }

@@ -55,6 +55,11 @@ public class ProviderController {
     return "ok";
   }
 
+  @GetMapping("/calendar")
+  public WhattimeCalendar getCalendar() {
+    return null;
+  }
+
   @PostMapping("/calendar")
   public WhattimeCalendar createCalendar(
       @Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails,
@@ -88,43 +93,4 @@ public class ProviderController {
   public WhattimeCalendar updateCalendarConfirm(@RequestBody ClientRequestConfirm clientRequestConfirm) {
     return whattimeService.updateCalendarConfirm(clientRequestConfirm);
   }
-
-  // @PostMapping("/calendar")
-  // public String createCalendar(
-  // @Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails
-  // oAuth2UserDetails,
-  // @RequestBody ClientRequestCalendarDto clientRequestCalendarDto) {
-  // log.info("캘린더 생성 요청");
-  // log.info(clientRequestCalendarDto.toString());
-
-  // User user = oAuth2UserDetails.getUser();
-
-  // // 1. 데이터베이스에서 user를 통해서 store를 불러온다
-  // Store store = storeService.findByUser(user);
-  // log.info("user를 통해 가져온 store : " + store.toString());
-
-  // // 2. 불러온 store에서 whattimeUser를 가져온다.
-  // WhattimeUser whattimeUser = whattimeService.getWhattimeUserFromStore(store);
-
-  // // 3. 캘린더 생성
-  // whattimeService.createCalendar(clientRequestCalendarDto, whattimeUser);
-
-  // return "ok";
-  // }
-
-  // @GetMapping("/calendar")
-  // public ArrayList<Calendar> getAllCalendar(
-  // @Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails
-  // oAuth2UserDetails) {
-  // User user = oAuth2UserDetails.getUser();
-  // ArrayList<Calendar> calendars = whattimeService.getAllCalendar(user);
-  // return calendars;
-  // }
-
-  // @GetMapping("/calendar/{code}")
-  // public Calendar getCalendar(@PathVariable String code) {
-  // Calendar calendar = whattimeService.getCalendar(code);
-  // return calendar;
-  // }
-
 }
