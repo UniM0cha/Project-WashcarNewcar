@@ -1,15 +1,9 @@
 package com.solstice.washcar_newcar.controller;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-import org.springframework.context.annotation.Role;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +16,9 @@ import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestConfi
 import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestStore;
 import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestSurvey;
 import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestTime;
-import com.solstice.washcar_newcar.data.dto.requestToWhattime.WhattimeRequestAlarm;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeCalendar;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeUser;
+import com.solstice.washcar_newcar.data.dto.responseToClient.ClientResponseCalendar;
 import com.solstice.washcar_newcar.data.entity.Store;
 import com.solstice.washcar_newcar.data.entity.User;
 import com.solstice.washcar_newcar.service.StoreService;
@@ -58,6 +52,14 @@ public class ProviderController {
   @GetMapping("/calendar")
   public WhattimeCalendar getCalendar() {
     return null;
+  }
+
+  @GetMapping("/calendar/list")
+  public List<ClientResponseCalendar> getCalendarList(@AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails) {
+    User user = oAuth2UserDetails.getUser();
+    Store store = storeService.findByUser(user);
+    List<ClientResponseCalendar> clientResponseCalendars = whattimeService.getCalendars(store);
+    return clientResponseCalendars;
   }
 
   @PostMapping("/calendar")

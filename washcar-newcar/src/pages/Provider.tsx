@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 
 const Provider = () => {
+  const getCalendarList = () => {};
+
   return (
     <div>
       <button>매장정보 변경</button>

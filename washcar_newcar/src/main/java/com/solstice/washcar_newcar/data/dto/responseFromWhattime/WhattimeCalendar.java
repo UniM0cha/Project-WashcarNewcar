@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.solstice.washcar_newcar.data.dto.responseToClient.ClientResponseCalendar;
 
 import lombok.Builder;
 import lombok.Data;
@@ -38,4 +39,7 @@ public class WhattimeCalendar {
   private WhattimeAlarm alarm;
   private WhattimeConfirm confirm;
 
+  public ClientResponseCalendar toClientResponseCalendar() {
+    return new ClientResponseCalendar(name);
+  }
 }

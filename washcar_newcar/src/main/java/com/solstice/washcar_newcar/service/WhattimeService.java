@@ -1,6 +1,7 @@
 package com.solstice.washcar_newcar.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestBase;
 import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestCalendar;
@@ -10,6 +11,7 @@ import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestSurve
 import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestTime;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeCalendar;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeUser;
+import com.solstice.washcar_newcar.data.dto.responseToClient.ClientResponseCalendar;
 import com.solstice.washcar_newcar.data.entity.Store;
 import com.solstice.washcar_newcar.data.entity.User;
 
@@ -33,4 +35,6 @@ public interface WhattimeService {
   public WhattimeCalendar updateCalendarSurvey(ClientRequestSurvey clientRequestSurvey);
 
   public WhattimeCalendar updateCalendarConfirm(ClientRequestConfirm clientRequestConfirm);
+
+  public List<ClientResponseCalendar> getCalendars(Store store);
 }

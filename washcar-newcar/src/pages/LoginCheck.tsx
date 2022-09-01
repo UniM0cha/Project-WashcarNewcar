@@ -15,7 +15,6 @@ interface LoginCheckProps {
 const LoginCheck = ({ next }: LoginCheckProps) => {
   const [isLogind, setIsLogind] = useState(false);
   const [ready, setReady] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     runAsync();

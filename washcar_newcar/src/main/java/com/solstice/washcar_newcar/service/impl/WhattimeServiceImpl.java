@@ -19,8 +19,10 @@ import com.solstice.washcar_newcar.data.dto.requestToWhattime.WhattimeRequestSur
 import com.solstice.washcar_newcar.data.dto.requestToWhattime.WhattimeRequestTime;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeCalendar;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeCalendarResponse;
+import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeCalendars;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeUser;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeUserResponse;
+import com.solstice.washcar_newcar.data.dto.responseToClient.ClientResponseCalendar;
 import com.solstice.washcar_newcar.data.entity.Location;
 import com.solstice.washcar_newcar.data.entity.Menu;
 import com.solstice.washcar_newcar.data.entity.Store;
@@ -188,5 +190,26 @@ public class WhattimeServiceImpl implements WhattimeService {
         .retrieve().bodyToMono(WhattimeCalendarResponse.class).block();
 
     return response.getResource();
+  }
+
+  @Override
+  public List<ClientResponseCalendar> getCalendars(Store store) {
+    String userCode = store.getWhattimeUserCode();
+
+    // 유저코드를 이용하여 전체 캘린더 리스트를 가져온다.
+    WhattimeCalendars response = webClientWithToken.get()
+        .uri(uriBuilder -> uriBuilder.path("/calendars")
+            .queryParam("user", "https://api.whattime.co.kr/v1/users/" + userCode).build())
+        .retrieve().bodyToMono(WhattimeCalendars.class).block();
+
+    // 가져온 데이터중에 deleted 속성이 true 인 것은 걸러낸다.
+    List<WhattimeCalendar> whattimeCalendars = response.getCollection().stream()
+        .filter(whattimeCalendar -> !whattimeCalendar.isDeleted()).toList();
+
+    // 가져온 캘린더 리스트에서 필요한 정보만 뽑아서 반환한다.
+    List<ClientResponseCalendar> clientResponseCalendars = whattimeCalendars.stream()
+        .map(whattimeCalendar -> whattimeCalendar.toClientResponseCalendar()).toList();
+
+    return clientResponseCalendars;
   }
 }
