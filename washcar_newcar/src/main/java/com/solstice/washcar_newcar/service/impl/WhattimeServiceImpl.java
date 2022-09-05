@@ -49,7 +49,7 @@ public class WhattimeServiceImpl implements WhattimeService {
   private final MenuRepository menuRepository;
 
   @Override
-  public Store register(User user, ClientRequestStore storeRegisterDto) {
+  public Store register(User user, ClientRequestStore clientRequestStore) {
 
     Store foundStore = storeRepository.findByUser(user);
     if (foundStore != null) {
@@ -64,22 +64,15 @@ public class WhattimeServiceImpl implements WhattimeService {
     String whattimeuserCode = "MvMemAB7y8";
 
     // Store(부모) 먼저 저장
-    Store whattimeRegisteredStore = storeRegisterDto.whattimeRegister(user, whattimeuserCode);
+    Store whattimeRegisteredStore = clientRequestStore.toEntity(user, whattimeuserCode);
     Store savedStore = storeRepository.save(whattimeRegisteredStore);
 
     // 나머지(자식) 저장
     log.info("DTO 객체에서 엔티티로 변환하면서 store 객체 주입");
-    List<StoreImage> storeImages = storeRegisterDto.getStoreImages().stream()
+    List<StoreImage> storeImages = clientRequestStore.getStoreImages().stream()
         .map((storeImage) -> storeImage.toEntity(savedStore))
         .toList();
     storeImageRepository.saveAll(storeImages);
-
-    List<Menu> menus = storeRegisterDto.getMenus().stream()
-        .map((menu) -> menu.toEntity(savedStore)).toList();
-    menuRepository.saveAll(menus);
-
-    Location location = storeRegisterDto.getLocation().toEntity(savedStore);
-    locationRepository.save(location);
 
     log.info("Whattime 회원가입 후 받은 user_code : " + savedStore.getWhattimeUserCode());
     return savedStore;
@@ -211,5 +204,15 @@ public class WhattimeServiceImpl implements WhattimeService {
         .map(whattimeCalendar -> whattimeCalendar.toClientResponseCalendar()).toList();
 
     return clientResponseCalendars;
+  }
+
+  @Override
+  public boolean checkIsRegistered(User user) {
+    Store store = storeRepository.findByUser(user);
+    if (store == null) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

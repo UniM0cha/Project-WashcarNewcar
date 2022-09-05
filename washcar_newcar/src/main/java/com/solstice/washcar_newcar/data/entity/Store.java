@@ -11,8 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.springframework.security.access.method.P;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -21,7 +22,6 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @ToString
 public class Store {
 
@@ -35,16 +35,16 @@ public class Store {
   private String whattimeUserCode;
 
   // 연관관계의 주인은 외래키가 있는 곳
-  @Builder.Default
   @OneToMany(mappedBy = "store")
   private List<StoreImage> storeImages = new ArrayList<>();
 
-  @Builder.Default
   @OneToMany(mappedBy = "store")
   private List<Menu> menus = new ArrayList<>();
 
-  @OneToOne(mappedBy = "store", fetch = FetchType.LAZY)
-  private Location location;
+  // @OneToOne(mappedBy = "store", fetch = FetchType.LAZY)
+  // private Location location;
+  private String address;
+  private String addressDetail;
 
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(unique = true)

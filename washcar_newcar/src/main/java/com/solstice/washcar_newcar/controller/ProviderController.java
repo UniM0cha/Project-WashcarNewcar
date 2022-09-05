@@ -19,6 +19,7 @@ import com.solstice.washcar_newcar.data.dto.requestFromClient.ClientRequestTime;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeCalendar;
 import com.solstice.washcar_newcar.data.dto.responseFromWhattime.WhattimeUser;
 import com.solstice.washcar_newcar.data.dto.responseToClient.ClientResponseCalendar;
+import com.solstice.washcar_newcar.data.dto.responseToClient.ClientResponseProvider;
 import com.solstice.washcar_newcar.data.entity.Store;
 import com.solstice.washcar_newcar.data.entity.User;
 import com.solstice.washcar_newcar.service.StoreService;
@@ -39,13 +40,22 @@ public class ProviderController {
   private final WhattimeService whattimeService;
   private final StoreService storeService;
 
-  @PostMapping("/register")
-  public String register(@Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails,
-      @RequestBody ClientRequestStore storeRegisterDto) {
+  // @GetMapping("/check")
+  // public boolean checkIsRegistered(
+  // @Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails
+  // oAuth2UserDetails) {
+  // User user = oAuth2UserDetails.getUser();
+  // boolean result = whattimeService.checkIsRegistered(user);
+  // return result;
+  // }
+
+  @PostMapping("/store")
+  public String upsertStore(@Parameter(hidden = true) @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails,
+      @RequestBody ClientRequestStore clientRequestStore) {
     log.info("매장생성, whattime 회원가입 요청");
-    log.info(storeRegisterDto.toString());
+    log.info(clientRequestStore.toString());
     User user = oAuth2UserDetails.getUser();
-    Store newStore = whattimeService.register(user, storeRegisterDto);
+    Store newStore = whattimeService.register(user, clientRequestStore);
     return "ok";
   }
 
@@ -55,11 +65,16 @@ public class ProviderController {
   }
 
   @GetMapping("/calendar/list")
-  public List<ClientResponseCalendar> getCalendarList(@AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails) {
+  public ClientResponseProvider getCalendarList(@AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails) {
     User user = oAuth2UserDetails.getUser();
     Store store = storeService.findByUser(user);
+    if (store == null) {
+      // 처음 매장을 생성한다는 것을 반환하는 코드
+      return new ClientResponseProvider(true, null);
+    }
     List<ClientResponseCalendar> clientResponseCalendars = whattimeService.getCalendars(store);
-    return clientResponseCalendars;
+    ClientResponseProvider clientResponseProvider = new ClientResponseProvider(false, clientResponseCalendars);
+    return clientResponseProvider;
   }
 
   @PostMapping("/calendar")

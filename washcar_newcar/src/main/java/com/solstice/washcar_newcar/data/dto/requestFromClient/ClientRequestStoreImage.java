@@ -19,9 +19,6 @@ public class ClientRequestStoreImage {
   }
 
   public StoreImage toEntity(Store store) {
-    return StoreImage.builder()
-        .store(store)
-        .url(this.url)
-        .build();
+    return new StoreImage(null, store, url);
   }
 }

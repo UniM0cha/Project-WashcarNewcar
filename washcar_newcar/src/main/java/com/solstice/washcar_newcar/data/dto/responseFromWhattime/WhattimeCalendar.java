@@ -40,6 +40,6 @@ public class WhattimeCalendar {
   private WhattimeConfirm confirm;
 
   public ClientResponseCalendar toClientResponseCalendar() {
-    return new ClientResponseCalendar(name);
+    return new ClientResponseCalendar(name, code);
   }
 }

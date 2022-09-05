@@ -20,12 +20,6 @@ public class WhattimeRequestStore {
   // private WhattimeLocationDto location;
 
   public Store whattimeRegister(User user, String whattimeuserCode) {
-    return Store.builder()
-        .user(user)
-        .name(this.name)
-        .profileImage(this.profileImage)
-        .info(this.info)
-        .whattimeUserCode(whattimeuserCode)
-        .build();
+    return null;
   }
 }

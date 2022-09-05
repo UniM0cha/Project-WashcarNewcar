@@ -1,10 +1,5 @@
 const API_SERVER = process.env.REACT_APP_API;
 
-interface Parameter {
-  path: string;
-  options: object;
-}
-
 export const checkLogin = async (): Promise<boolean> => {
   const localToken = localStorage.getItem('token');
   if (!localToken) return false;
@@ -22,19 +17,26 @@ export const checkLogin = async (): Promise<boolean> => {
   return json as boolean;
 };
 
-export const requestWithToken = async ({
-  path,
-  options,
-}: Parameter): Promise<any> => {
+interface Options {
+  method: string;
+  headers: HeadersInit;
+  body: BodyInit;
+}
+
+export const requestWithToken = async (
+  path: string,
+  options?: Options
+): Promise<Response> => {
   const token = {
     Authorization: 'Bearer ' + localStorage.getItem('token'),
   };
 
-  if (!token) return false;
+  const headers = Object.assign({}, options?.headers, token);
+  console.log(headers);
 
   const response = await fetch(`${API_SERVER}${path}`, {
     ...options,
-    headers: token,
+    headers: headers,
   });
-  return await response.json();
+  return response;
 };

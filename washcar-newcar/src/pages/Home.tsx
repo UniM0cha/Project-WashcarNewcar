@@ -5,8 +5,8 @@ import CardGrid from '../components/CardGrid';
 const Home = () => {
   return (
     <div>
-      <Burgermenu />
-      <Header />
+      {/* <Burgermenu /> */}
+      <Header type={1} />
       <CardGrid />
     </div>
   );

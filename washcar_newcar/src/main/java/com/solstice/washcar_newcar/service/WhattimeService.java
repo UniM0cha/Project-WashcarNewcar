@@ -37,4 +37,6 @@ public interface WhattimeService {
   public WhattimeCalendar updateCalendarConfirm(ClientRequestConfirm clientRequestConfirm);
 
   public List<ClientResponseCalendar> getCalendars(Store store);
+
+  public boolean checkIsRegistered(User user);
 }

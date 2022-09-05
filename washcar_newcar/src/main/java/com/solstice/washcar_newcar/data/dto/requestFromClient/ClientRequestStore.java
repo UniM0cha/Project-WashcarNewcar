@@ -13,19 +13,18 @@ import lombok.Data;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ClientRequestStore {
   private String name;
-  private String profileImage;
+  private String slug;
+  private String address;
+  private String addressDetail;
+  private String route;
   private String info;
+  private String profileImage;
   private List<ClientRequestStoreImage> storeImages;
-  private List<ClientRequestMenu> menus;
-  private ClientRequestLocation location;
+  // private List<ClientRequestMenu> menus;
+  // private ClientRequestLocation location;
 
-  public Store whattimeRegister(User user, String whattimeuserCode) {
-    return Store.builder()
-        .user(user)
-        .name(this.name)
-        .profileImage(this.profileImage)
-        .info(this.info)
-        .whattimeUserCode(whattimeuserCode)
-        .build();
+  public Store toEntity(User user, String whattimeUserCode) {
+    return new Store(null, name, profileImage, info, whattimeUserCode,
+        null, null, address, addressDetail, user);
   }
 }
