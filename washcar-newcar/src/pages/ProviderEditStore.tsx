@@ -1,6 +1,9 @@
+import Header from '../components/Header';
+
 const ProviderEditStore = () => {
   return (
-    <div>
+    <>
+      {/* <Header type={2} /> */}
       <div>운영하시는 매장의 정보를 입력해주세요</div>
       <div>매장이름</div>
       <input type="text" />
@@ -20,7 +23,7 @@ const ProviderEditStore = () => {
       <div>매장사진(선택)</div>
       <button>사진 업로드</button>
       <button>저장</button>
-    </div>
+    </>
   );
 };
 
