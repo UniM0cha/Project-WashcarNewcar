@@ -5,26 +5,12 @@ import { BsCheckCircleFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import Item from '../components/Item';
 import classNames from 'classnames';
+import Header from '../components/Header';
 
 const Search = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <Link to="/">
-          <img
-            src="carwash.png"
-            alt="carwash-logo"
-            className={styles.carwash_logo}
-          />
-        </Link>
-        <Link to="/">
-          <img
-            src="메인로고.png"
-            alt="main-logo"
-            className={styles.main_logo}
-          />
-        </Link>
-      </div>
+      <Header type={2} />
       <div className={styles.date}>
         <div className={styles.date_flex_container}>
           <div className={styles.left}>날짜 선택</div>

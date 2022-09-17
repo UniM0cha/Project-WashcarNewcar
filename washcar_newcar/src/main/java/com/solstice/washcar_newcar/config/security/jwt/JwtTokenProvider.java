@@ -5,16 +5,13 @@ import java.security.Key;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
-import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import com.solstice.washcar_newcar.config.security.auth.CustomOAuth2UserService;
 import com.solstice.washcar_newcar.config.security.auth.CustomUserDetailsService;
 
 import io.jsonwebtoken.Claims;
@@ -39,7 +36,7 @@ public class JwtTokenProvider {
   private String secretKey = "secretKey";
   private static Key JWT_SECRET;
 
-  private static final int JWT_EXPIRATION_MS = 1000 * 60 * 60 * 6; // 6시간
+  private static final int JWT_EXPIRATION_MS = 1000 * 60 * 60 * 24; // 24시간
 
   @PostConstruct
   protected void init() {

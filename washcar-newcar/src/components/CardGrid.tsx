@@ -1,5 +1,6 @@
 // import Card from './Card';
 import { useEffect, useState } from 'react';
+import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styles from './CardGrid.module.scss';
 
@@ -42,7 +43,7 @@ const Card = ({ type }: CardProps) => {
         );
       case '등록하기':
         return (
-          <Link to="/register" className={styles.card_grid_item}>
+          <Link to="/provider" className={styles.card_grid_item}>
             <div className={styles.card_title}>등록하기</div>
             <div className={styles.card_content}>세차장 사장님이신가요?</div>
           </Link>

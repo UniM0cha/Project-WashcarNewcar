@@ -13,7 +13,6 @@ import com.solstice.washcar_newcar.config.security.auth.provider.OAuth2UserInfo;
 import com.solstice.washcar_newcar.config.security.auth.provider.Provider;
 import com.solstice.washcar_newcar.data.entity.User;
 import com.solstice.washcar_newcar.data.repository.UserRepository;
-import com.solstice.washcar_newcar.service.WhattimeService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
   private final UserRepository userRepository;
-  private final WhattimeService whattimeService;
 
   /**
    * loadUser 메서드는 사용자 정보를 요청할 수 있는 access token을 얻고 나서 실행된다.
@@ -52,7 +50,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     String providerId = oAuth2UserInfo.getProviderId();
     String userId = provider.toString() + "_" + providerId;
     String email = oAuth2UserInfo.getEmail();
-    Role role = Role.ROLE_PROVIDER;
+    Role role = Role.ROLE_CLIENT;
 
     User foundUser = userRepository.findByProviderAndProviderId(provider, providerId);
 
@@ -69,11 +67,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
           .role(role)
           .build();
 
-      // 되는시간 회원가입
-      User whattimeRegisteredUser = whattimeService.register(newUser);
+      // 데이터베이스 저장
+      userRepository.save(newUser);
 
-      userRepository.save(whattimeRegisteredUser);
-      oAuth2UserDetails = new OAuth2UserDetails(whattimeRegisteredUser, attributes);
+      // 시큐리티 세션에 저장할 oAuth2UserDetails 객체 생성
+      oAuth2UserDetails = new OAuth2UserDetails(newUser, attributes);
     } else {
       oAuth2UserDetails = new OAuth2UserDetails(foundUser, attributes);
     }

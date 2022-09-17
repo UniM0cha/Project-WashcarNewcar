@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-WashcarNewcarApplication<washcar_newcar>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.solstice.washcar_newcar.WashcarNewcarApplication",
+      "projectName": "washcar_newcar",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

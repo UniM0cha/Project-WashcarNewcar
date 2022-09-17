@@ -1,17 +1,13 @@
 package com.solstice.washcar_newcar.config.security;
 
-import java.util.Arrays;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.solstice.washcar_newcar.config.security.auth.CustomOAuth2UserService;
 import com.solstice.washcar_newcar.config.security.auth.OAuth2AuthenticationSuccessHandler;
@@ -56,9 +52,10 @@ public class SecurityConfiguration {
     // UsernamePasswordAuthenticationFilter 전에(앞에) JWT 필터 적용
     http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 
-    // 예외처리 - 굳이해야하나..?
-    // http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
-    // .accessDeniedHandler(jwtAccessDeniedHandler);
+    // 예외처리
+    http.exceptionHandling()
+        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+        .accessDeniedHandler(jwtAccessDeniedHandler);
 
     // 경로 보안 설정
     http.authorizeRequests(authorize -> authorize
@@ -67,7 +64,8 @@ public class SecurityConfiguration {
         // hasRole('ROLE_ADMIN')")
         // .antMatchers("/api/v1/manager/**").access("hasRole('ROLE_MANAGER') or
         // hasRole('ROLE_ADMIN')")
-        // .antMatchers("/api/v1/admin/**").access("hasRole('ROLE_ADMIN')")
+        .antMatchers(HttpMethod.OPTIONS).permitAll()
+        .antMatchers("/auth/**").authenticated()
         .antMatchers("/provider/**").hasRole("PROVIDER")
         .anyRequest().permitAll());
 
